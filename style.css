@@ -1,0 +1,121 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    text-align: center;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+header {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s, transform 0.2s;
+}
+
+nav ul li a:hover {
+    color: #ffd1dc;
+    transform: scale(1.1);
+}
+
+.hero {
+    padding: 120px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    margin: 120px auto 30px;
+    width: 85%;
+    box-shadow: 0px 5px 20px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    animation: fadeIn 2s ease-in-out;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    margin-top: 20px;
+    background: #ff4e50;
+    color: #fff;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: transform 0.3s, background 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.2);
+    background: #ff6b81;
+}
+
+.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.content {
+    padding: 60px 20px;
+}
+
+.service-box {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.service {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 25px;
+    border-radius: 15px;
+    width: 270px;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.3);
+    transition: transform 0.4s, background 0.3s;
+}
+
+.service:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+footer {
+    margin-top: 60px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffd1dc;
+    font-weight: bold;
+    box-shadow: 0px -4px 15px rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1 class="fade-in">Happy Birthday!</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Surprise</a></li>
+                <li><a href="#contact">Message</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2 class="slide-in">Wishing You a Wonderful Year Ahead!</h2>
+        <p>Celebrate your special day with joy and happiness.</p>
+        <a href="#services" class="btn pulse">Click for a Surprise</a>
+    </section>
+
+    <section id="about" class="content">
+        <h2>About You</h2>
+        <p>You are an amazing person, and today is all about you!</p>
+    </section>
+
+    <section id="services" class="content">
+        <h2>Your Special Surprise</h2>
+        <div class="service-box">
+            <div class="service">
+                <h3>Memories</h3>
+                <p>A collection of our best moments together.</p>
+            </div>
+            <div class="service">
+                <h3>Music</h3>
+                <p>A special playlist just for you.</p>
+            </div>
+            <div class="service">
+                <h3>Wish</h3>
+                <p>Make a wish and let the magic happen!</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 - A Special Gift for You</p>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            $('.fade-in').fadeIn(2000);
+            $('.slide-in').animate({ left: '0px', opacity: '1' }, 1000);
+        });
+    </script>
+</body>
+
+</html>
