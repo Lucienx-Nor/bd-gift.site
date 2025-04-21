@@ -1,66 +1,424 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday!</title>
+    <title>Pixel Art Birthday Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Thêm CSS mới -->
+    <style>
+        /* Con trỏ chuột tùy chỉnh */
+        body {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Crect width='4' height='4' x='6' y='6' fill='%23ffec27'/%3E%3Crect width='2' height='2' x='6' y='4' fill='%23ffec27'/%3E%3Crect width='2' height='2' x='6' y='10' fill='%23ffec27'/%3E%3Crect width='2' height='2' x='4' y='6' fill='%23ffec27'/%3E%3Crect width='2' height='2' x='10' y='6' fill='%23ffec27'/%3E%3C/svg%3E"), auto;
+        }
+
+        /* CSS cho hiệu ứng tương tác chuột */
+        .cursor-particle {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 5px;
+            background-color: #ff004d;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            border-radius: 0;
+            will-change: opacity, transform;
+            opacity: 0;
+            animation: cursor-particle-fade 1s forwards ease-out;
+        }
+
+        @keyframes cursor-particle-fade {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5) translate(var(--x-distance), var(--y-distance));
+            }
+        }
+
+        .click-firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: click-firework-particle 0.8s forwards;
+        }
+
+        @keyframes click-firework-particle {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0) translate(var(--x-distance), var(--y-distance));
+            }
+        }
+
+        /* CSS cho hiệu ứng thời tiết */
+        .weather-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .pixel-rain {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: currentColor;
+            opacity: 0.6;
+            will-change: transform;
+            animation: rain-fall linear forwards;
+        }
+
+        @keyframes rain-fall {
+            0% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(calc(100vh + 20px));
+            }
+        }
+
+        .pixel-bubble {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 2px solid currentColor;
+            background-color: transparent;
+            opacity: 0.5;
+            animation: bubble-rise ease-in-out forwards;
+        }
+
+        @keyframes bubble-rise {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-20px) translateX(var(--x-offset));
+                opacity: 0;
+            }
+        }
+
+        .color-shift-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 100%);
+            z-index: -2;
+            opacity: 0.1;
+            animation: color-shift 20s infinite alternate;
+        }
+
+        @keyframes color-shift {
+            0% {
+                --color-1: #1d2b53;
+                --color-2: #0f0f1b;
+            }
+            25% {
+                --color-1: #7e2553;
+                --color-2: #1d2b53;
+            }
+            50% {
+                --color-1: #008751;
+                --color-2: #7e2553;
+            }
+            75% {
+                --color-1: #5f574f;
+                --color-2: #008751;
+            }
+            100% {
+                --color-1: #29adff;
+                --color-2: #0f0f1b;
+            }
+        }
+
+        /* CSS cho nhân vật pixel art */
+        .pixel-character-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .dancing-character {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='transparent'/%3E%3Crect width='16' height='10' x='8' y='18' fill='%23ff77a8'/%3E%3Crect width='12' height='12' x='10' y='6' fill='%23ffccaa'/%3E%3Crect width='4' height='4' x='12' y='10' fill='%23000000'/%3E%3Crect width='4' height='4' x='16' y='10' fill='%23000000'/%3E%3Crect width='4' height='2' x='14' y='16' fill='%23ff0040'/%3E%3Crect width='4' height='4' x='6' y='14' fill='%23ffccaa'/%3E%3Crect width='4' height='4' x='22' y='14' fill='%23ffccaa'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            animation: dance 0.5s steps(1) infinite;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .dancing-character.visible {
+            opacity: 1;
+        }
+
+        @keyframes dance {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-4px) rotate(-5deg);
+            }
+            50% {
+                transform: translateY(0) rotate(0deg);
+            }
+            75% {
+                transform: translateY(-4px) rotate(5deg);
+            }
+        }
+
+        .pixel-pet {
+            position: absolute;
+            width: 24px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='16' viewBox='0 0 24 16'%3E%3Crect width='24' height='16' fill='transparent'/%3E%3Crect width='16' height='8' x='4' y='8' fill='%2329adff'/%3E%3Crect width='4' height='4' x='4' y='4' fill='%2329adff'/%3E%3Crect width='4' height='4' x='16' y='4' fill='%2329adff'/%3E%3Crect width='4' height='4' x='8' y='4' fill='%2329adff'/%3E%3Crect width='4' height='4' x='12' y='4' fill='%2329adff'/%3E%3Crect width='4' height='4' x='0' y='8' fill='%2329adff'/%3E%3Crect width='4' height='4' x='20' y='8' fill='%2329adff'/%3E%3Crect width='2' height='2' x='6' y='10' fill='%23000000'/%3E%3Crect width='2' height='2' x='16' y='10' fill='%23000000'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            transform-origin: center;
+            animation: run-loop 0.4s steps(2) infinite;
+            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .pixel-pet.visible {
+            opacity: 1;
+        }
+
+        @keyframes run-loop {
+            0% {
+                transform: translateY(0) scaleY(1);
+            }
+            50% {
+                transform: translateY(-2px) scaleY(0.9);
+            }
+            100% {
+                transform: translateY(0) scaleY(1);
+            }
+        }
+
+        /* CSS cho easter eggs */
+        .konami-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9000;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        .konami-effect.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .konami-text {
+            font-size: 24px;
+            color: #ffec27;
+            background-color: #7e2553;
+            padding: 20px;
+            border: 8px solid #fff;
+            text-align: center;
+            animation: pulse 2s infinite;
+            border-image: url("data:image/svg+xml,%3Csvg width='8' height='8' viewBox='0 0 8 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='8' height='8' fill='white'/%3E%3Crect x='0' y='0' width='4' height='4' fill='white'/%3E%3Crect x='4' y='4' width='4' height='4' fill='white'/%3E%3C/svg%3E") 2;
+        }
+
+        .konami-text span {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .hidden-message {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #83769c;
+            opacity: 0;
+            transition: opacity 0.5s;
+            text-align: center;
+            width: 100%;
+        }
+
+        .hidden-message.visible {
+            opacity: 1;
+        }
+
+        .secret-character {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='transparent'/%3E%3Crect width='4' height='4' x='14' y='2' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='18' y='6' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='22' y='10' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='26' y='14' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='22' y='18' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='18' y='22' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='14' y='26' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='10' y='22' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='6' y='18' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='2' y='14' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='6' y='10' fill='%23ff004d'/%3E%3Crect width='4' height='4' x='10' y='6' fill='%23ff004d'/%3E%3Crect width='8' height='8' x='12' y='12' fill='%23ffec27'/%3E%3C/svg%3E");
+            opacity: 0;
+            transition: opacity 0.5s;
+            transform: translate(-50%, -50%);
+            animation: spin 2s linear infinite;
+        }
+
+        .secret-character.visible {
+            opacity: 1;
+        }
+
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+    </style>
 </head>
-
 <body>
-    <header>
-        <h1 class="fade-in">Happy Birthday!</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Surprise</a></li>
-                <li><a href="#contact">Message</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- Hiệu ứng nền thay đổi màu -->
+    <div class="color-shift-bg"></div>
+    <div class="stars"></div>
+    
+    <!-- Container thời tiết pixel -->
+    <div class="weather-container" id="weather-container"></div>
+    
+    <!-- Container nhân vật pixel -->
+    <div class="pixel-character-container">
+        <div class="dancing-character" id="dancing-character"></div>
+    </div>
+    
+    <!-- Container cho thú cưng pixel -->
+    <div class="pixel-pet" id="pixel-pet"></div>
 
-    <section class="hero">
-        <h2 class="slide-in">Wishing You a Wonderful Year Ahead!</h2>
-        <p>Celebrate your special day with joy and happiness.</p>
-        <a href="#services" class="btn pulse">Click for a Surprise</a>
-    </section>
-
-    <section id="about" class="content">
-        <h2>About You</h2>
-        <p>You are an amazing person, and today is all about you!</p>
-    </section>
-
-    <section id="services" class="content">
-        <h2>Your Special Surprise</h2>
-        <div class="service-box">
-            <div class="service">
-                <h3>Memories</h3>
-                <p>A collection of our best moments together.</p>
-            </div>
-            <div class="service">
-                <h3>Music</h3>
-                <p>A special playlist just for you.</p>
-            </div>
-            <div class="service">
-                <h3>Wish</h3>
-                <p>Make a wish and let the magic happen!</p>
+    <div class="container">
+        <!-- Intro Screen -->
+        <div id="intro-screen" class="screen active">
+            <div class="pixel-border">
+                <h1 class="pixel-text">HAPPY BIRTHDAY!</h1>
+                <p class="pixel-text">Press START to begin</p>
+                <button id="start-btn" class="pixel-btn">START</button>
             </div>
         </div>
-    </section>
 
-    <footer>
-        <p>&copy; 2025 - A Special Gift for You</p>
-    </footer>
+        <!-- Letter Screen -->
+        <div id="letter-screen" class="screen">
+            <div class="envelope-container">
+                <div class="envelope">
+                    <div class="envelope-front"></div>
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-letter">
+                        <div class="letter-content">
+                            <div id="typing-text"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="envelope-instructions">
+                    <p class="pixel-text">Click to open</p>
+                </div>
+                <button id="letter-next-btn" class="pixel-btn hidden">NEXT →</button>
+            </div>
+        </div>
 
-    <script>
-        $(document).ready(function () {
-            $('.fade-in').fadeIn(2000);
-            $('.slide-in').animate({ left: '0px', opacity: '1' }, 1000);
-        });
-    </script>
+        <!-- Cake Screen -->
+        <div id="cake-screen" class="screen">
+            <div class="cake-container">
+                <div class="pixel-cake">
+                    <div class="cake-top-layer"></div>
+                    <div class="cake-middle-layer"></div>
+                    <div class="cake-bottom-layer"></div>
+                    
+                    <div class="candle candle-1">
+                        <div class="candle-stick"></div>
+                        <div class="candle-flame"></div>
+                    </div>
+                    <div class="candle candle-2">
+                        <div class="candle-stick"></div>
+                        <div class="candle-flame"></div>
+                    </div>
+                    <div class="candle candle-3">
+                        <div class="candle-stick"></div>
+                        <div class="candle-flame"></div>
+                    </div>
+                </div>
+                <button id="blow-candles-btn" class="pixel-btn">BLOW CANDLES</button>
+                <button id="cake-next-btn" class="pixel-btn hidden">NEXT →</button>
+            </div>
+        </div>
+
+        <!-- Gift Screen -->
+        <div id="gift-screen" class="screen">
+            <div class="gift-container">
+                <div class="pixel-gift">
+                    <div class="gift-box"></div>
+                    <div class="gift-lid"></div>
+                    <div class="gift-ribbon"></div>
+                </div>
+                <div class="gift-instructions">
+                    <p class="pixel-text">Click gift to open</p>
+                </div>
+                <canvas id="fireworks-canvas"></canvas>
+                <button id="gift-next-btn" class="pixel-btn hidden">NEXT →</button>
+            </div>
+        </div>
+
+        <!-- Final Screen -->
+        <div id="final-screen" class="screen">
+            <div class="final-message">
+                <h1 class="pixel-text birthday-heading">HAPPY BIRTHDAY!</h1>
+                <div class="name-container">
+                    <p class="pixel-text recipient-name">TO YOU</p>
+                </div>
+                <div class="heart-container"></div>
+                <button id="restart-btn" class="pixel-btn">PLAY AGAIN</button>
+                <!-- Thông điệp ẩn -->
+                <div class="hidden-message" id="hidden-message">Bạn đã mở khóa tất cả tính năng đặc biệt! Nhấn phím "B" để xem bất ngờ!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="corner-decoration top-left"></div>
+    <div class="corner-decoration top-right"></div>
+    <div class="corner-decoration bottom-left"></div>
+    <div class="corner-decoration bottom-right"></div>
+    
+    <!-- Hiệu ứng Konami Code -->
+    <div class="konami-effect" id="konami-effect">
+        <div class="konami-text">
+            BẬT CHẾ ĐỘ SIÊU SINH NHẬT!
+            <span>Nhấn ESC để đóng</span>
+        </div>
+    </div>
+    
+    <!-- Phần tử bí mật -->
+    <div class="secret-character" id="secret-character"></div>
+
+    <script src="script.js"></script>
 </body>
-
 </html>
