@@ -1,0 +1,146 @@
+/* Nền trang */
+.page-1 {
+    background: linear-gradient(
+            rgba(255, 255, 255, 0.7),
+            rgba(255, 255, 255, 0.7)
+        ),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%23f5f1e8"/><path d="M10 10L20 10M10 20L10 10" stroke="%23f5d6d6" stroke-width="1"/><path d="M90 10L80 10M90 20L90 10" stroke="%23f5d6d6" stroke-width="1"/><path d="M10 90L20 90M10 80L10 90" stroke="%23f5d6d6" stroke-width="1"/><path d="M90 90L80 90M90 80L90 90" stroke="%23f5d6d6" stroke-width="1"/></svg>');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.page-2 {
+    background: linear-gradient(
+            rgba(255, 255, 255, 0.7),
+            rgba(255, 255, 255, 0.7)
+        ),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><rect x="0" y="0" width="50" height="50" fill="%23f5f1e8"/><path d="M0 25H50M25 0V50" stroke="%23f5d6d6" stroke-width="0.5" stroke-dasharray="2,2"/></svg>');
+    background-size: 50px 50px;
+    background-attachment: fixed;
+}
+
+.page-3 {
+    background: linear-gradient(
+            rgba(255, 255, 255, 0.7),
+            rgba(255, 255, 255, 0.7)
+        ),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%23f5f1e8"/><circle cx="50" cy="50" r="20" stroke="%23f7c9c9" stroke-width="0.5" fill="none"/></svg>');
+    background-size: 100px 100px;
+    background-attachment: fixed;
+}
+
+.page-4 {
+    background: linear-gradient(
+            rgba(255, 255, 255, 0.7),
+            rgba(255, 255, 255, 0.7)
+        ),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><rect x="0" y="0" width="60" height="60" fill="%23f5f1e8"/><path d="M15 15L45 45M45 15L15 45" stroke="%23f5d6d6" stroke-width="0.5"/></svg>');
+    background-size: 60px 60px;
+    background-attachment: fixed;
+}
+
+.page-4 .page-content {
+    margin-top: 0; /* Đã bỏ margin-top 20vh để hiển thị đúng vị trí */
+    padding-top: 2rem; /* Thêm khoảng đệm trên để nội dung không sát mép */
+    z-index: 10; /* Đảm bảo nội dung luôn hiển thị trên hoa */
+}
+
+/* Lời chúc sinh nhật */
+.birthday-message {
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    margin: 2rem 0;
+}
+
+.birthday-text {
+    font-family: "Dancing Script", cursive;
+    font-size: 1.7rem;
+    color: var(--accent-color);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.signature {
+    font-family: "Dancing Script", cursive;
+    font-size: 1.8rem;
+    text-align: right;
+    margin-top: 3rem;
+    color: var(--accent-color);
+}
+
+/* Cửa sổ modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal {
+    width: 90%;
+    max-width: 600px;
+    background-color: white;
+    padding: 3rem;
+    border-radius: 2px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--accent-color);
+}
+
+.modal-title {
+    font-family: "Dancing Script", cursive;
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.modal-content {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+}
+
+.modal-signature {
+    font-family: "Dancing Script", cursive;
+    font-style: italic;
+    text-align: right;
+    margin-top: 2rem;
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}

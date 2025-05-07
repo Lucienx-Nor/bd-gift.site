@@ -1,0 +1,467 @@
+/**
+ * PHẦN 5: PHÁO HOA RỰC RỠ
+ */
+.fireworks-container {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    margin: 2rem auto;
+    overflow: hidden;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Birthday text container and letters */
+.birthday-text-container {
+    pointer-events: none;
+    z-index: 50;
+}
+
+.birthday-letter {
+    display: inline-block;
+    position: relative;
+    z-index: 50;
+    font-weight: bold;
+    margin: 0 2px;
+    user-select: none;
+}
+
+/* Water reflection (new) */
+.water-reflection {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0),
+        rgba(0, 20, 40, 0.3)
+    );
+    transform: scaleY(-1);
+    opacity: 0.3;
+    filter: blur(1px);
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+/* Shooting star effect (new) */
+.shooting-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px white, 0 0 20px 5px rgba(255, 255, 255, 0.5);
+    z-index: 2;
+}
+
+/* Moving cloud effect (new) */
+.bg-cloud {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    filter: blur(20px);
+    z-index: 1;
+}
+
+/* Background star effect */
+.background-star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 4px white;
+}
+
+/* Background light effect */
+.background-light {
+    position: absolute;
+    width: 40%;
+    height: 40%;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+.top-left-light {
+    top: 0;
+    left: 0;
+}
+
+.top-right-light {
+    top: 0;
+    right: 0;
+}
+
+.bottom-left-light {
+    bottom: 0;
+    left: 0;
+}
+
+.bottom-right-light {
+    bottom: 0;
+    right: 0;
+}
+
+.bottom-light {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.05), transparent);
+}
+
+/* Firework rise up effect */
+.firework-trail {
+    position: absolute;
+    width: 2px;
+    height: 5px;
+    border-radius: 50% 50% 0 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.firework-spark {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    box-shadow: 0 0 4px currentColor;
+    z-index: 1;
+}
+
+/* Audio ripple effect */
+.audio-ripple {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    animation: ripple 0.6s ease-out forwards;
+    z-index: 1;
+}
+
+/* 3D explosion effect (new) */
+.explosion-effect {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px 5px currentColor;
+    filter: blur(1px);
+    z-index: 10;
+}
+
+.explosion-ray {
+    position: absolute;
+    height: 2px;
+    background-color: currentColor;
+    transform-origin: left center;
+    opacity: 0.8;
+    z-index: 9;
+    filter: blur(0.5px);
+}
+
+/* Basic firework */
+.firework {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    transform-origin: center;
+    z-index: 10;
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+/* Different firework types */
+.circular-firework {
+    animation-duration: 0.7s;
+}
+
+.spiral-firework {
+    animation-duration: 0.9s;
+}
+
+.heart-firework {
+    animation-duration: 0.8s;
+}
+
+.star-firework {
+    animation-duration: 0.75s;
+}
+
+.burst-firework {
+    animation-duration: 0.6s;
+}
+
+.palm-firework {
+    animation-duration: 1s;
+}
+
+.ring-firework {
+    animation-duration: 0.8s;
+}
+
+.chrysanthemum-firework {
+    animation-duration: 1.2s;
+}
+
+.crossette-firework {
+    animation-duration: 0.7s;
+}
+
+.willow-firework {
+    animation-duration: 1.5s;
+}
+
+/* New firework types */
+.cascade-firework {
+    animation-duration: 2.7s;
+}
+
+.peony-firework {
+    animation-duration: 2.5s;
+}
+
+.galaxy-firework {
+    animation-duration: 3.2s;
+}
+
+.crown-firework {
+    animation-duration: 2.6s;
+}
+
+.glitter-firework {
+    animation-duration: 3s;
+}
+
+/* Firework light effect */
+.firework-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    filter: blur(5px);
+    opacity: 0.7;
+    animation: glow 2s ease-out forwards;
+}
+
+/* Firework particles */
+.particle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation-duration: 1.5s;
+    animation-timing-function: cubic-bezier(0.1, 0.5, 0.1, 1);
+    animation-fill-mode: forwards;
+}
+
+.particle div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px currentColor;
+}
+
+/* Child particles for Crossette effect */
+.particle-child {
+    position: absolute;
+    width: 30px;
+    height: 2px;
+    top: 0;
+    left: 0;
+    transform-origin: left center;
+    animation: particle-child 0.6s ease-out forwards;
+}
+
+/* Sparkle effect */
+.sparkle {
+    animation: sparkle 0.8s ease-in-out infinite alternate;
+}
+
+/* Second and third particle layers */
+.secondary {
+    animation-delay: 0.1s;
+    opacity: 0.7;
+}
+
+.tertiary {
+    animation-delay: 0.2s;
+    opacity: 0.5;
+}
+
+/* Firework button */
+.firework-button {
+    padding: 12px 30px;
+    background: linear-gradient(
+        135deg,
+        var(--accent-color),
+        var(--dark-accent)
+    );
+    border: none;
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: 1.5rem auto;
+    display: block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(214, 126, 126, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.firework-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: all 0.6s ease;
+}
+
+.firework-button:hover {
+    background: linear-gradient(
+        135deg,
+        var(--dark-accent),
+        var(--accent-color)
+    );
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(214, 126, 126, 0.6),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.firework-button:hover::before {
+    left: 100%;
+}
+
+.firework-button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(214, 126, 126, 0.4);
+}
+
+/* Firework text effect */
+.firework-text {
+    position: absolute;
+    font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px white;
+    z-index: 30;
+    transform-origin: center;
+    animation: glowText 2s infinite alternate;
+}
+
+/* Ray effect for text */
+.text-explosion-ray {
+    position: absolute;
+    height: 2px;
+    background-color: currentColor;
+    transform-origin: left center;
+    opacity: 0.8;
+    z-index: 9;
+    filter: blur(0.5px);
+    box-shadow: 0 0 5px currentColor;
+}
+
+/* Visual optimization for fireworks */
+.firework {
+    box-shadow: 0 0 8px currentColor;
+    will-change: transform, opacity;
+}
+
+.particle {
+    will-change: transform;
+}
+
+/* Animations */
+@keyframes twinkle {
+    0% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes cloudMove {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(100vw + 200px));
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(6);
+        opacity: 0;
+    }
+}
+
+@keyframes glow {
+    0% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(3);
+    }
+}
+
+@keyframes sparkle {
+    0% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes particle-child {
+    0% {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scaleX(0.2);
+        opacity: 0;
+    }
+}
+
+@keyframes glowText {
+    0% {
+        opacity: 0.7;
+        text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    }
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 20px currentColor, 0 0 40px white;
+    }
+}

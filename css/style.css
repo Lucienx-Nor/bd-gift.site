@@ -1,0 +1,18 @@
+/**
+ * style.css - Main stylesheet importing all components
+ */
+
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+Pro:wght@300;400;600;700&family=Dancing+Script:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap");
+
+/* Import component styles */
+@import "base.css";
+@import "layout.css";
+@import "pages.css";
+@import "candles.css";
+@import "fireworks.css";
+/* @import "flowers.css"; */
+@import "navigation.css";
+@import "animations.css";
+@import "responsive.css";
+@import "flower2.css";

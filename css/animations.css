@@ -1,0 +1,770 @@
+/**
+ * ANIMATIONS - Các hiệu ứng animation dùng chung
+ */
+
+/* Animation pháo hoa */
+@keyframes explode {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+        box-shadow: 0 0 5px currentColor;
+    }
+    10% {
+        opacity: 1;
+        box-shadow: 0 0 8px currentColor;
+    }
+    70% {
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+        box-shadow: 0 0 0px currentColor;
+    }
+}
+
+/* Animation cho các loại pháo hoa */
+@keyframes explode-circular {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    70% {
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-spiral {
+    0% {
+        transform: scale(0.1) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    70% {
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        transform: scale(2.5) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-heart {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: scale(2);
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-star {
+    0% {
+        transform: scale(0.1) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    70% {
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        transform: scale(3) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-burst {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    30% {
+        transform: scale(2);
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        transform: scale(3.5);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-palm {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    60% {
+        transform: scale(2.5);
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-ring {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: scale(2);
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-chrysanthemum {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    60% {
+        transform: scale(2);
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        transform: scale(3.5);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-crossette {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    40% {
+        transform: scale(1.5);
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-willow {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: scale(2);
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    80% {
+        transform: scale(2.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-cascade {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    60% {
+        transform: scale(2.5);
+        box-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+    }
+    100% {
+        transform: scale(3.5) translateY(50px);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-peony {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: scale(2.2);
+        box-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+    }
+    100% {
+        transform: scale(3.3);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-galaxy {
+    0% {
+        transform: scale(0.1) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    60% {
+        transform: scale(2.5) rotate(720deg);
+        box-shadow: 0 0 25px currentColor, 0 0 50px currentColor;
+    }
+    100% {
+        transform: scale(4) rotate(1080deg);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-crown {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    40% {
+        transform: scale(1.5);
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    70% {
+        transform: scale(2.5);
+        box-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+    }
+    100% {
+        transform: scale(3.2);
+        opacity: 0;
+    }
+}
+
+@keyframes explode-glitter {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+        box-shadow: 0 0 20px currentColor, 0 0 40px white;
+    }
+    50% {
+        transform: scale(2);
+        box-shadow: 0 0 30px currentColor, 0 0 60px white;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Animation cho các loại hạt pháo hoa */
+@keyframes particle-circular {
+    from {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100px) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-spiral {
+    0% {
+        transform: translateX(0) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(120px) scale(0) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-heart {
+    0% {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(var(--tx, 0)) translateY(var(--ty, 0)) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-star {
+    0% {
+        transform: translateX(0) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100px) scale(0) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-burst {
+    0% {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(var(--tx, 0)) translateY(var(--ty, 0)) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-palm {
+    0% {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+    }
+    60% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateX(80px) translateY(40px) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-ring {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(70px) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-chrysanthemum {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    40% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(120px) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-crossette {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    30% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(80px) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-willow {
+    0% {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(40px) translateY(140px) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-cascade {
+    0% {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+    }
+    60% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateX(20px) translateY(150px) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-peony {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(100px) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-galaxy {
+    0% {
+        transform: translateX(0) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    70% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateX(120px) scale(0) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-crown {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    60% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateX(90px) scale(0) translateY(20px);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-glitter {
+    0% {
+        transform: translateX(0) scale(1) rotate(0deg);
+        opacity: 1;
+        box-shadow: 0 0 8px currentColor, 0 0 15px white;
+    }
+    30% {
+        opacity: 1;
+        box-shadow: 0 0 10px currentColor, 0 0 20px white;
+    }
+    100% {
+        transform: translateX(80px) scale(0) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+@keyframes particle-child {
+    0% {
+        transform: translateX(0) scale(0.8);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(40px) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes sparkle {
+    0% {
+        opacity: 0.6;
+        box-shadow: 0 0 3px currentColor;
+    }
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 8px currentColor, 0 0 12px white;
+    }
+}
+
+@keyframes glow {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(6);
+        opacity: 0;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        width: 10px;
+        height: 10px;
+        opacity: 1;
+    }
+    100% {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+    }
+}
+
+@keyframes twinkle {
+    0% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes cloudMove {
+    from {
+        left: -20%;
+    }
+    to {
+        left: 120%;
+    }
+}
+
+/* Animation bó hoa và bướm */
+@keyframes bouquetAnimation {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-10px) rotate(-2deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(1deg);
+    }
+    75% {
+        transform: translateY(-8px) rotate(-1deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+@keyframes ribbonGlow {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.5;
+    }
+}
+
+@keyframes butterflyFloat {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-3px) rotate(1deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(-1deg);
+    }
+    75% {
+        transform: translateY(-2px) rotate(1deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+@keyframes wingBeat {
+    0% {
+        transform: rotate(-10deg);
+        box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        transform: rotate(-25deg);
+        box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        transform: rotate(-40deg);
+        box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.3);
+    }
+}
+
+@keyframes butterflyPetalFall {
+    0% {
+        transform: rotate(0deg) translateY(0);
+        opacity: 0.7;
+    }
+    50% {
+        transform: rotate(180deg) translateY(40px) translateX(20px);
+        opacity: 0.5;
+    }
+    100% {
+        transform: rotate(360deg) translateY(100px) translateX(-10px);
+        opacity: 0;
+    }
+}
+
+@keyframes flowerGlow {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+@keyframes dewSparkle {
+    0% {
+        box-shadow: 0 0 3px rgba(255, 255, 255, 0.5),
+            inset 0 0 2px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.8),
+            inset 0 0 4px rgba(255, 255, 255, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 3px rgba(255, 255, 255, 0.5),
+            inset 0 0 2px rgba(255, 255, 255, 0.5);
+    }
+}
+
+@keyframes glitter {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    20% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(0.7);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+@keyframes petalFall {
+    0% {
+        transform: rotate(45deg) translateY(0) translateX(0);
+        opacity: 1;
+    }
+    50% {
+        transform: rotate(180deg) translateY(75px) translateX(25px);
+        opacity: 0.8;
+    }
+    100% {
+        transform: rotate(360deg) translateY(150px) translateX(-20px);
+        opacity: 0;
+    }
+}
+
+@keyframes bouquetLight {
+    0% {
+        opacity: 0.1;
+        transform: translateX(-50%) scale(0.9);
+    }
+    100% {
+        opacity: 0.3;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+@keyframes bouquetSparkle {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    }
+    50% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.8),
+            0 0 30px rgba(255, 255, 255, 0.4);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes flowerShake {
+    0% {
+        transform: scale(1) rotate(var(--rotate, 0deg));
+    }
+    25% {
+        transform: scale(1.05) rotate(calc(var(--rotate, 0deg) + 3deg));
+    }
+    50% {
+        transform: scale(1.05) rotate(calc(var(--rotate, 0deg) - 2deg));
+    }
+    75% {
+        transform: scale(1.05) rotate(calc(var(--rotate, 0deg) + 1deg));
+    }
+    100% {
+        transform: scale(1) rotate(var(--rotate, 0deg));
+    }
+}
+
+@keyframes glowText {
+    0% {
+        text-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+        transform: scale(1);
+    }
+    50% {
+        text-shadow: 0 0 15px currentColor, 0 0 25px currentColor,
+            0 0 35px white;
+        transform: scale(1.05);
+    }
+    100% {
+        text-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+        transform: scale(1);
+    }
+}

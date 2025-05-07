@@ -1,0 +1,106 @@
+/**
+ * PHẦN 8: KHẢ NĂNG HIỂN THỊ TRÊN NHIỀU THIẾT BỊ
+ */
+@media (max-width: 768px) {
+    .cover-title {
+        font-size: 3rem;
+    }
+
+    .cover-subtitle {
+        font-size: 1.5rem;
+    }
+
+    .page-content {
+        padding: 2rem;
+    }
+
+    .page h2 {
+        font-size: 2.5rem;
+    }
+
+    .birthday-text {
+        font-size: 1.4rem;
+    }
+
+    .bouquet {
+        width: 250px;
+    }
+
+    .navigation {
+        right: 10px;
+    }
+
+    .surprise-button {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+    }
+
+    /* Điều chỉnh kích thước cho night-flowers trên thiết bị nhỏ hơn */
+    .night-flowers {
+        height: 250px;
+    }
+
+    /* Điều chỉnh kích thước hoa */
+    .flower__leaf {
+        width: 6vmin;
+        height: 9vmin;
+    }
+
+    .flower__line {
+        height: 35vmin;
+    }
+}
+
+@media (max-width: 480px) {
+    .cover-title {
+        font-size: 2.5rem;
+    }
+
+    .cover-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .page-content {
+        padding: 1.5rem;
+    }
+
+    .page h2 {
+        font-size: 2rem;
+    }
+
+    .birthday-text {
+        font-size: 1.2rem;
+    }
+
+    .bouquet {
+        width: 200px;
+    }
+
+    .bouquet-wrapper {
+        width: 140px;
+    }
+
+    /* Điều chỉnh thêm cho night-flowers trên thiết bị nhỏ */
+    .night-flowers {
+        height: 200px;
+    }
+
+    /* Giảm kích thước hoa */
+    .flower__leaf {
+        width: 5vmin;
+        height: 8vmin;
+    }
+
+    .flower__line {
+        height: 30vmin;
+    }
+
+    /* Điều chỉnh khoảng cách */
+    .flower--1,
+    .flower--2,
+    .flower--3 {
+        transform: scale(0.8);
+    }
+}

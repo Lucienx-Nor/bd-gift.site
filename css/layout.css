@@ -1,0 +1,234 @@
+/**
+ * PHẦN 2: BÌA VÀ KHUNG SỔ
+ */
+.book {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    perspective: 1500px;
+}
+
+/* Bìa */
+.cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(
+            rgba(242, 232, 218, 0.95),
+            rgba(242, 232, 218, 0.95)
+        ),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%23f5f1e8"/><path d="M0 0L100 100M100 0L0 100" stroke="%23e8c295" stroke-width="0.5" stroke-opacity="0.3"/></svg>');
+    background-size: cover;
+    transition: transform 1.5s var(--transition-timing);
+    z-index: 100;
+    text-align: center;
+    padding: 2rem;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    background-attachment: fixed;
+}
+
+.cover.open {
+    transform: rotateY(-120deg);
+    pointer-events: none;
+}
+
+.cover::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.05),
+        transparent 10%,
+        transparent 90%,
+        rgba(0, 0, 0, 0.05)
+    );
+    pointer-events: none;
+}
+
+.cover-title {
+    font-family: "Dancing Script", cursive;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px var(--shadow);
+    position: relative;
+}
+
+.cover-title::after {
+    content: "";
+    position: absolute;
+    width: 60%;
+    height: 1px;
+    background-color: var(--accent-color);
+    bottom: -10px;
+    left: 20%;
+}
+
+.cover-subtitle {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--text-color);
+    margin-bottom: 3rem;
+}
+
+.cover-button {
+    padding: 12px 30px;
+    background-color: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-radius: 30px;
+}
+
+.cover-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(214, 126, 126, 0.2);
+    transition: all 0.4s ease;
+}
+
+.cover-button:hover::before {
+    left: 0;
+}
+
+.cover-button:hover {
+    color: var(--dark-accent);
+}
+
+.cover-design {
+    position: absolute;
+    width: 80%;
+    height: 90%;
+    border: 1px solid var(--light-accent);
+    top: 5%;
+    left: 10%;
+    pointer-events: none;
+}
+
+.corner {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-color: var(--accent-color);
+    border-style: solid;
+    border-width: 0;
+}
+
+.corner-tl {
+    top: 20px;
+    left: 20px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+}
+
+.corner-tr {
+    top: 20px;
+    right: 20px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+}
+
+.corner-bl {
+    bottom: 20px;
+    left: 20px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+
+.corner-br {
+    bottom: 20px;
+    right: 20px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+}
+
+/**
+ * PHẦN 3: TRANG VÀ NỘI DUNG
+ */
+.pages {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform-style: preserve-3d;
+    perspective: 1500px;
+    scroll-snap-type: y mandatory;
+}
+
+.page {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    scroll-snap-align: start;
+    position: relative;
+}
+
+.page-content {
+    max-width: 1000px;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 3rem;
+    border-radius: 2px;
+    box-shadow: 0 10px 30px var(--shadow);
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.page.active .page-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.page h2 {
+    font-family: "Dancing Script", cursive;
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    position: relative;
+    text-align: center;
+}
+
+.page h2::after {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 2px;
+    background-color: var(--highlight);
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.page p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}

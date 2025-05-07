@@ -1,0 +1,30 @@
+/**
+ * PHẦN 1: BIẾN VÀ RESET
+ */
+:root {
+    --page-bg: #f5f1e8;
+    --text-color: #3a3a3a;
+    --accent-color: #d67e7e;
+    --accent-soft: #eaabab;
+    --light-accent: #f5d6d6;
+    --highlight: #f7c9c9;
+    --dark-accent: #a85e5e;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --transition-timing: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    height: 100%;
+    font-family: "Source Serif Pro", serif;
+    color: var(--text-color);
+    background-color: var(--page-bg);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
