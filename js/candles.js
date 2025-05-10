@@ -30,6 +30,11 @@ export function initCandles(elements) {
     micButton = elements.micButton;
     micStatus = elements.micStatus;
 
+    // Ẩn nút thắp lại nến ban đầu
+    if (resetCandlesBtn) {
+        resetCandlesBtn.style.display = "none";
+    }
+
     // Setup event listeners
     setupCandleEvents();
 
@@ -87,6 +92,19 @@ function setupCandleEvents() {
         candleFlame.style.opacity = 1;
         candleMessage.classList.remove("show");
         candleBlown = false;
+
+        // Ẩn nút thắp lại nến
+        resetCandlesBtn.style.display = "none";
+
+        // Bật lại nút thổi nến
+        if (blowCandleBtn) {
+            blowCandleBtn.disabled = false;
+        }
+
+        // Reset trạng thái microphone nếu cần
+        if (micButton) {
+            micButton.disabled = false;
+        }
     });
 }
 
@@ -106,6 +124,16 @@ export function blowOutCandle() {
 
         // Đánh dấu nến đã tắt
         candleBlown = true;
+
+        // Hiển thị nút thắp lại nến
+        if (resetCandlesBtn) {
+            resetCandlesBtn.style.display = "block";
+        }
+
+        // Vô hiệu hóa nút thổi nến
+        if (blowCandleBtn) {
+            blowCandleBtn.disabled = true;
+        }
 
         // Tạo pháo hoa nhỏ ăn mừng
         setTimeout(() => {

@@ -9,14 +9,54 @@ import {
     createBackgroundEffects,
     createBackgroundLight,
 } from "./fireworks.js";
-// import { initFlowers, createEnhancedBouquet } from "./flowers.js";
+// import { initFlowers } from "./flowers.js";
 
 /**
  * Initialize the birthday card when DOM is loaded
  */
 document.addEventListener("DOMContentLoaded", function () {
-    // Get all DOM elementss
-    const elements = {
+    // Initialize all components
+    initBirthdayCard();
+});
+
+/**
+ * Main initialization function
+ */
+function initBirthdayCard() {
+    // Get all DOM elements
+    const elements = getDOMElements();
+
+    // Set up navigation and page effects
+    initNavigation(elements, handlePageEffects);
+
+    // Initialize candles with microphone support
+    initCandles(elements);
+
+    // Initialize fireworks if available
+    if (elements.startFireworksBtn && elements.fireworksContainer) {
+        initFireworks(elements);
+    }
+
+    // Initialize surprise button if available
+    if (elements.surpriseButton && elements.modalOverlay) {
+        setupSurpriseButton(elements);
+    }
+
+    // Set up page-specific event listeners
+    setupPageEventListeners(elements);
+
+    // Initialize intersection observer for page transitions
+    setupPageObserver(elements);
+
+    console.log("Birthday card initialized successfully!");
+}
+
+/**
+ * Collect all DOM elements needed for the application
+ * @returns {Object} Object containing all DOM element references
+ */
+function getDOMElements() {
+    return {
         // Navigation elements
         cover: document.getElementById("cover"),
         openBookBtn: document.getElementById("open-book"),
@@ -36,50 +76,38 @@ document.addEventListener("DOMContentLoaded", function () {
         resetCandlesBtn: document.getElementById("reset-candles"),
         candleMessage: document.getElementById("candle-message"),
 
+        // Microphone elements
+        micButton: document.getElementById("mic-button"),
+        micStatus: document.getElementById("mic-status"),
+
         // Fireworks elements
         startFireworksBtn: document.getElementById("start-fireworks"),
         fireworksContainer: document.getElementById("fireworks-container"),
 
         // Flowers elements
         bloomFlowersBtn: document.getElementById("bloom-flowers"),
-        bouquet: document.getElementById("bouquet"),
+        nightFlowers: document.querySelector(".night-flowers"),
     };
-
-    // Initialize all modules
-    initNavigation(elements, initPageEffects);
-    initCandles(elements);
-    initFireworks(elements);
-    // initFlowers(elements);
-
-    // Setup surprise button
-    setupSurpriseButton(elements);
-});
+}
 
 /**
- * Initialize page specific effects when page becomes visible
+ * Handle page-specific effects when a page becomes visible
  * @param {number} pageIndex - Index of the page
  */
-function initPageEffects(pageIndex) {
+function handlePageEffects(pageIndex) {
     const fireworksContainer = document.getElementById("fireworks-container");
-    const bouquet = document.getElementById("bouquet");
+
+    // No need to proceed if elements don't exist
+    if (!fireworksContainer) return;
 
     switch (pageIndex) {
-        case 2: // Trang pháo hoa
-            // Tạo hiệu ứng sao nền
+        case 2: // Fireworks page
+            // Create background effects if they don't exist yet
             if (!fireworksContainer.querySelector(".background-star")) {
                 createBackgroundEffects(fireworksContainer);
                 createBackgroundLight(fireworksContainer);
             }
             break;
-
-        // case 3: // Trang bó hoa
-        //     // Tạo bố cục hoa đẹp và cân đối
-        //     if (!bouquet.querySelector(".flower")) {
-        //         const flowers = createEnhancedBouquet(bouquet);
-        //         // Lưu trạng thái đã tạo hoa
-        //         bouquet.dataset.flowers = true;
-        //     }
-        //     break;
     }
 }
 
@@ -88,92 +116,130 @@ function initPageEffects(pageIndex) {
  * @param {Object} elements - DOM elements
  */
 function setupSurpriseButton(elements) {
+    // Skip if elements are missing
+    if (
+        !elements.surpriseButton ||
+        !elements.modalOverlay ||
+        !elements.modalClose
+    ) {
+        return;
+    }
+
     // Surprise button event
     elements.surpriseButton.addEventListener("click", function () {
         elements.modalOverlay.classList.add("active");
-        setTimeout(() => {
-            // Use enhanced fireworks
-            import("./fireworks.js").then((module) => {
-                module.createEnhancedFireworks(elements.fireworksContainer, 5);
-            });
-        }, 500);
+
+        // Create enhanced fireworks with a delay
+        if (elements.fireworksContainer) {
+            setTimeout(() => {
+                import("./fireworks.js").then((module) => {
+                    module.createEnhancedFireworks(
+                        elements.fireworksContainer,
+                        5
+                    );
+                });
+            }, 500);
+        }
     });
 
     // Close modal event
     elements.modalClose.addEventListener("click", function () {
         elements.modalOverlay.classList.remove("active");
     });
+
+    // Close modal on click outside
+    elements.modalOverlay.addEventListener("click", function (e) {
+        if (e.target === elements.modalOverlay) {
+            elements.modalOverlay.classList.remove("active");
+        }
+    });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Main page elements
-    const cover = document.getElementById("cover");
-    const openButton = document.getElementById("open-book");
-    const pages = document.querySelectorAll(".page");
-    const navItems = document.querySelectorAll(".nav-item");
-    const pagesContainer = document.getElementById("pages");
-
-    // Modal elements
-    const surpriseButton = document.getElementById("surprise-button");
-    const modalOverlay = document.getElementById("modal-overlay");
-    const modalClose = document.getElementById("modal-close");
-
-    // Page specific elements
-    const blowCandleBtn = document.getElementById("blow-candle");
-    const resetCandlesBtn = document.getElementById("reset-candles");
-    const candleMessage = document.getElementById("candle-message");
-    const candleFlame = document.getElementById("candle-flame");
-    const startFireworksBtn = document.getElementById("start-fireworks");
-    const fireworksContainer = document.getElementById("fireworks-container");
-    const bloomFlowersBtn = document.getElementById("bloom-flowers");
-    const nightFlowers = document.querySelector(".night-flowers");
-
+/**
+ * Set up page-specific event listeners
+ * @param {Object} elements - DOM elements
+ */
+function setupPageEventListeners(elements) {
     // Open book animation
-    if (openButton) {
-        openButton.addEventListener("click", function () {
-            cover.classList.add("open");
+    if (elements.openBookBtn && elements.cover && elements.pageElements) {
+        elements.openBookBtn.addEventListener("click", function () {
+            elements.cover.classList.add("open");
+
             // Set the first page as active
-            pages[0].classList.add("active");
+            if (elements.pageElements.length > 0) {
+                elements.pageElements[0].classList.add("active");
+            }
+
+            // Show pages container
+            if (elements.pages) {
+                elements.pages.classList.add("show");
+            }
         });
     }
 
     // Page navigation
-    if (navItems.length > 0) {
-        navItems.forEach(function (item) {
+    if (elements.navItems && elements.navItems.length > 0) {
+        elements.navItems.forEach(function (item) {
             item.addEventListener("click", function () {
                 const targetPage = this.getAttribute("data-page");
+                if (!targetPage) return;
 
                 // Update navigation
-                navItems.forEach(function (nav) {
+                elements.navItems.forEach(function (nav) {
                     nav.classList.remove("active");
                 });
                 this.classList.add("active");
 
                 // Update page visibility
-                pages.forEach(function (page) {
+                elements.pageElements.forEach(function (page) {
                     page.classList.remove("active");
                     if (page.id === targetPage) {
                         page.classList.add("active");
 
                         // Auto-trigger page-specific animations
-                        if (targetPage === "page-4") {
+                        if (targetPage === "page-4" && elements.nightFlowers) {
                             // Auto-bloom flowers on page 4
-                            setTimeout(bloomFlowers, 500);
+                            setTimeout(function () {
+                                bloomFlowers(elements);
+                            }, 500);
                         }
                     }
                 });
 
                 // Scroll to page
-                document.getElementById(targetPage).scrollIntoView({
-                    behavior: "smooth",
-                });
+                const targetElement = document.getElementById(targetPage);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: "smooth",
+                    });
+                }
             });
         });
     }
 
-    // Intersection Observer for page transitions
+    // Event listener for bloom button
+    if (elements.bloomFlowersBtn) {
+        elements.bloomFlowersBtn.addEventListener("click", function () {
+            bloomFlowers(elements);
+        });
+    }
+}
+
+/**
+ * Set up intersection observer for page transitions
+ * @param {Object} elements - DOM elements
+ */
+function setupPageObserver(elements) {
+    if (
+        !elements.pageElements ||
+        !elements.pageElements.length ||
+        !elements.pages
+    ) {
+        return;
+    }
+
     const observerOptions = {
-        root: pagesContainer,
+        root: elements.pages,
         rootMargin: "0px",
         threshold: 0.7,
     };
@@ -186,165 +252,57 @@ document.addEventListener("DOMContentLoaded", function () {
                 entry.target.classList.add("active");
 
                 // Update navigation
-                navItems.forEach(function (nav) {
-                    nav.classList.remove("active");
-                    if (nav.getAttribute("data-page") === targetId) {
-                        nav.classList.add("active");
-                    }
-                });
+                if (elements.navItems) {
+                    elements.navItems.forEach(function (nav) {
+                        nav.classList.remove("active");
+                        if (nav.getAttribute("data-page") === targetId) {
+                            nav.classList.add("active");
+                        }
+                    });
+                }
             }
         });
     }, observerOptions);
 
     // Observe all pages
-    pages.forEach(function (page) {
+    elements.pageElements.forEach(function (page) {
         observer.observe(page);
     });
+}
 
-    // Surprise modal
-    if (surpriseButton && modalOverlay && modalClose) {
-        surpriseButton.addEventListener("click", function () {
-            modalOverlay.classList.add("active");
-        });
+/**
+ * Handle flowers blooming animation
+ * @param {Object} elements - DOM elements
+ */
+function bloomFlowers(elements) {
+    if (!elements.nightFlowers) return;
 
-        modalClose.addEventListener("click", function () {
-            modalOverlay.classList.remove("active");
-        });
+    // Remove not-loaded class to start animations
+    elements.nightFlowers.classList.remove("not-loaded");
 
-        // Close modal on click outside
-        modalOverlay.addEventListener("click", function (e) {
-            if (e.target === modalOverlay) {
-                modalOverlay.classList.remove("active");
-            }
-        });
-    }
-
-    // Candle interactions on page 2
-    if (blowCandleBtn && resetCandlesBtn && candleFlame) {
-        // Blow out candles
-        blowCandleBtn.addEventListener("click", function () {
-            candleFlame.style.opacity = 0;
-            candleMessage.textContent =
-                "Chúc mừng sinh nhật! Ước nguyện của cậu sẽ thành hiện thực!";
-            blowCandleBtn.disabled = true;
-            resetCandlesBtn.style.display = "block";
-        });
-
-        // Reset candles
-        resetCandlesBtn.addEventListener("click", function () {
-            candleFlame.style.opacity = 1;
-            candleMessage.textContent = "Chúc bạn những điều tốt đẹp nhất!";
-            blowCandleBtn.disabled = false;
-            resetCandlesBtn.style.display = "none";
-        });
-
-        // Initially hide the reset button
-        resetCandlesBtn.style.display = "none";
-    }
-
-    // Fireworks function for page 3
-    if (startFireworksBtn && fireworksContainer) {
-        startFireworksBtn.addEventListener("click", startFireworks);
-
-        function startFireworks() {
-            // Clear existing fireworks
-            fireworksContainer.innerHTML = "";
-            startFireworksBtn.disabled = true;
-            startFireworksBtn.textContent = "Đang hiển thị...";
-
-            // Create 15 fireworks with different colors, sizes, and timings
-            for (let i = 0.0; i < 15; i++) {
-                createFirework();
-            }
-
-            // Reset button after animation completes
-            setTimeout(function () {
-                startFireworksBtn.disabled = false;
-                startFireworksBtn.textContent = "Bắt Đầu Pháo Hoa";
-            }, 5000);
+    // Add growing animation classes to elements
+    const flowers = document.querySelectorAll(".flower");
+    flowers.forEach((flower, index) => {
+        flower.style.setProperty("--d", 0.5 + index * 0.2 + "s");
+        if (!flower.classList.contains("grow-ans")) {
+            flower.classList.add("grow-ans");
         }
+    });
 
-        function createFirework() {
-            const firework = document.createElement("div");
-            firework.className = "firework";
+    // Update button text and appearance
+    if (elements.bloomFlowersBtn) {
+        elements.bloomFlowersBtn.textContent = "Hoa Đang Nở!";
+        elements.bloomFlowersBtn.disabled = true;
 
-            // Random positions
-            const left = Math.random() * 100;
-            const top = 30 + Math.random() * 60;
-
-            // Random colors
-            const colors = [
-                "#FF5252",
-                "#FF4081",
-                "#E040FB",
-                "#7C4DFF",
-                "#536DFE",
-                "#448AFF",
-                "#40C4FF",
-                "#64FFDA",
-                "#FFD740",
-                "#FFAB40",
-            ];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-
-            // Random sizes
-            const size = 4 + Math.random() * 8;
-
-            // Random delay
-            const delay = Math.random() * 2;
-
-            // Apply styles
-            firework.style.left = `${left}%`;
-            firework.style.top = `${top}%`;
-            firework.style.backgroundColor = color;
-            firework.style.width = `${size}px`;
-            firework.style.height = `${size}px`;
-            firework.style.animationDelay = `${delay}s`;
-
-            // Add particles for explosion effect
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement("div");
-                particle.className = "particle";
-                particle.style.backgroundColor = color;
-                particle.style.animationDelay = `${delay}s`;
-                firework.appendChild(particle);
-            }
-
-            fireworksContainer.appendChild(firework);
-        }
+        // Reset button after animation completes
+        setTimeout(() => {
+            elements.bloomFlowersBtn.textContent = "Làm Nở Hoa";
+            elements.bloomFlowersBtn.disabled = false;
+        }, 4000);
     }
 
-    // Night Flowers animation for page 4
-    function bloomFlowers() {
-        if (nightFlowers) {
-            // Remove not-loaded class to start animations
-            nightFlowers.classList.remove("not-loaded");
-
-            // Add growing animation classes to elements
-            const flowers = document.querySelectorAll(".flower");
-            flowers.forEach((flower, index) => {
-                flower.style.setProperty("--d", 0.5 + index * 0.2 + "s");
-                if (!flower.classList.contains("grow-ans")) {
-                    flower.classList.add("grow-ans");
-                }
-            });
-
-            // Update button text and appearance
-            if (bloomFlowersBtn) {
-                bloomFlowersBtn.textContent = "Hoa Đang Nở!";
-                bloomFlowersBtn.disabled = true;
-
-                // Reset button after animation completes
-                setTimeout(() => {
-                    bloomFlowersBtn.textContent = "Làm Nở Hoa";
-                    bloomFlowersBtn.disabled = false;
-                }, 4000);
-            }
-        }
+    // Create sparkles effect if function exists
+    if (typeof createRandomSparkles === "function") {
+        createRandomSparkles();
     }
-
-    // Event listener for bloom button
-    if (bloomFlowersBtn) {
-        bloomFlowersBtn.addEventListener("click", bloomFlowers);
-    }
-});
+}
