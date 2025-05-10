@@ -40,11 +40,14 @@ export function initNavigation(elements, initPageEffectsCallback) {
  * @param {Function} initPageEffectsCallback - Callback for initializing page specific effects
  */
 function setupEventListeners(initPageEffectsCallback) {
+    // pages.addEventListener("wheel", function (e) {
+    //     // Cho phép cuộn tự nhiên
+    //     e.stopPropagation(); // Không cần thiết ngăn chặn sự kiện lan truyền
+    // });
     // Open book event
     openBookBtn.addEventListener("click", function () {
         cover.classList.add("open");
         setTimeout(() => {
-            pages.style.overflowY = "auto";
             checkVisibility(initPageEffectsCallback);
         }, 1000);
     });
