@@ -4,7 +4,8 @@
 
 // State variables
 let currentPage = 0;
-const totalPages = 4;
+let currentPageId = ""; // Thêm biến lưu ID trang hiện tại
+let pageIdToIndexMap = {}; // Ánh xạ từ ID trang đến chỉ số
 
 // DOM Elements references
 let cover;
@@ -26,12 +27,24 @@ export function initNavigation(elements, initPageEffectsCallback) {
     pageElements = elements.pageElements;
     navItems = elements.navItems;
 
+    // Tắt scroll-snap
+    if (pages) {
+        pages.style.scrollSnapType = "none";
+    }
+
+    // Tạo ánh xạ từ ID trang đến chỉ số
+    pageElements.forEach((page, index) => {
+        pageIdToIndexMap[page.id] = index;
+    });
+
     // Setup event listeners
     setupEventListeners(initPageEffectsCallback);
 
     // Initialize first page
     setTimeout(() => {
-        pageElements[0].classList.add("active");
+        if (pageElements.length > 0) {
+            pageElements[0].classList.add("active");
+        }
     }, 500);
 }
 
@@ -40,10 +53,6 @@ export function initNavigation(elements, initPageEffectsCallback) {
  * @param {Function} initPageEffectsCallback - Callback for initializing page specific effects
  */
 function setupEventListeners(initPageEffectsCallback) {
-    // pages.addEventListener("wheel", function (e) {
-    //     // Cho phép cuộn tự nhiên
-    //     e.stopPropagation(); // Không cần thiết ngăn chặn sự kiện lan truyền
-    // });
     // Open book event
     openBookBtn.addEventListener("click", function () {
         cover.classList.add("open");
@@ -52,10 +61,11 @@ function setupEventListeners(initPageEffectsCallback) {
         }, 1000);
     });
 
-    // Navigation items click events
-    navItems.forEach((item, index) => {
+    // Navigation items click events - sử dụng data-page attribute
+    navItems.forEach((item) => {
         item.addEventListener("click", function () {
-            scrollToPage(index);
+            const targetPageId = this.getAttribute("data-page");
+            scrollToPageById(targetPageId);
         });
     });
 
@@ -66,11 +76,14 @@ function setupEventListeners(initPageEffectsCallback) {
 }
 
 /**
- * Scroll to a specific page
- * @param {number} index - Page index to scroll to
+ * Scroll to a specific page by ID
+ * @param {string} pageId - ID of the page to scroll to
  */
-function scrollToPage(index) {
-    pageElements[index].scrollIntoView({ behavior: "smooth" });
+function scrollToPageById(pageId) {
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.scrollIntoView({ behavior: "smooth" });
+    }
 }
 
 /**
@@ -78,22 +91,28 @@ function scrollToPage(index) {
  * @param {Function} initPageEffectsCallback - Callback for initializing page specific effects
  */
 function checkVisibility(initPageEffectsCallback) {
-    pageElements.forEach((page, index) => {
+    let foundVisiblePage = false;
+
+    pageElements.forEach((page) => {
         const rect = page.getBoundingClientRect();
         const isVisible =
             rect.top < window.innerHeight / 2 &&
             rect.bottom > window.innerHeight / 2;
 
-        if (isVisible) {
-            currentPage = index;
+        if (isVisible && !foundVisiblePage) {
+            foundVisiblePage = true;
+            currentPageId = page.id; // Lưu ID trang hiện tại
+            currentPage = pageIdToIndexMap[page.id]; // Cập nhật chỉ số trang
+
             updateNavigation();
 
             // Kích hoạt nội dung trang
+            pageElements.forEach((p) => p.classList.remove("active"));
             page.classList.add("active");
 
             // Khởi tạo hiệu ứng khi đến mỗi trang
             if (typeof initPageEffectsCallback === "function") {
-                initPageEffectsCallback(index);
+                initPageEffectsCallback(currentPage);
             }
         }
     });
@@ -103,8 +122,9 @@ function checkVisibility(initPageEffectsCallback) {
  * Update navigation highlighting
  */
 function updateNavigation() {
-    navItems.forEach((item, index) => {
-        if (index === currentPage) {
+    navItems.forEach((item) => {
+        const navPageId = item.getAttribute("data-page");
+        if (navPageId === currentPageId) {
             item.classList.add("active");
         } else {
             item.classList.remove("active");
@@ -118,4 +138,12 @@ function updateNavigation() {
  */
 export function getCurrentPage() {
     return currentPage;
+}
+
+/**
+ * Get current page ID
+ * @returns {string} - Current page ID
+ */
+export function getCurrentPageId() {
+    return currentPageId;
 }
