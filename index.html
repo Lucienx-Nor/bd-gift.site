@@ -14,6 +14,58 @@
         <link rel="stylesheet" href="css/navigation.css" />
         <link rel="stylesheet" href="css/pages.css" />
         <link rel="stylesheet" href="css/reponsive.css" />
+        <!-- Thêm CSS cho microphone -->
+        <style>
+            .microphone-controls {
+                margin: 15px 0;
+                text-align: center;
+            }
+
+            #mic-button {
+                background-color: #f8a5c2;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 20px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 14px;
+            }
+
+            #mic-button:hover {
+                background-color: #f783ac;
+                transform: scale(1.05);
+            }
+
+            #mic-button.active {
+                background-color: #e64980;
+                animation: pulse 1.5s infinite;
+            }
+
+            #mic-button:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+
+            .mic-status {
+                margin-top: 8px;
+                font-size: 14px;
+                color: #666;
+                height: 20px;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+        </style>
     </head>
     <body>
         <div class="book">
@@ -670,6 +722,16 @@
                         <button class="cake-button" id="reset-candles">
                             Thắp Lại Nến
                         </button>
+
+                        <!-- Thêm phần microphone -->
+                        <div class="microphone-controls">
+                            <button id="mic-button" class="blow-candle-btn">
+                                Thổi Nến Bằng Mic
+                            </button>
+                            <div class="mic-status" id="mic-status">
+                                Microphone chưa kích hoạt
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1162,5 +1224,7 @@
         <script type="module" src="js/navigation.js"></script>
         <script type="module" src="js/utils.js"></script>
         <script type="module" src="js/main.js"></script>
+        <!-- Thêm script microphone -->
+        <script type="module" src="js/microphoneHandler.js"></script>
     </body>
 </html>

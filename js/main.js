@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
         blowCandleBtn.addEventListener("click", function () {
             candleFlame.style.opacity = 0;
             candleMessage.textContent =
-                "Chúc mừng sinh nhật! Ước nguyện của bạn sẽ thành hiện thực!";
+                "Chúc mừng sinh nhật! Ước nguyện của cậu sẽ thành hiện thực!";
             blowCandleBtn.disabled = true;
             resetCandlesBtn.style.display = "block";
         });

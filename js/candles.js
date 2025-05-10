@@ -2,6 +2,8 @@
  * candles.js - Handling candle blowing effects for the birthday card
  */
 
+import { initMicrophone } from "./microphoneHandler.js";
+
 // State variables
 let candleBlown = false;
 
@@ -11,6 +13,8 @@ let candleSvg;
 let blowCandleBtn;
 let resetCandlesBtn;
 let candleMessage;
+let micButton;
+let micStatus;
 
 /**
  * Initialize candle functionality
@@ -23,9 +27,19 @@ export function initCandles(elements) {
     blowCandleBtn = elements.blowCandleBtn;
     resetCandlesBtn = elements.resetCandlesBtn;
     candleMessage = elements.candleMessage;
+    micButton = elements.micButton;
+    micStatus = elements.micStatus;
 
     // Setup event listeners
     setupCandleEvents();
+
+    // Initialize microphone with elements and callback
+    if (micButton && micStatus) {
+        initMicrophone(
+            { micButton, micStatus },
+            blowOutCandle // Pass the blow candle function as callback
+        );
+    }
 }
 
 /**

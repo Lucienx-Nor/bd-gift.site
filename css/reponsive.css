@@ -51,6 +51,20 @@
     .flower__line {
         height: 35vmin;
     }
+
+    /* Điều chỉnh các phần tử microphone trên thiết bị trung bình */
+    .microphone-controls {
+        margin: 10px 0;
+    }
+
+    #mic-button {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .mic-status {
+        font-size: 12px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -102,5 +116,22 @@
     .flower--2,
     .flower--3 {
         transform: scale(0.8);
+    }
+
+    /* Điều chỉnh các phần tử microphone trên thiết bị nhỏ */
+    .microphone-controls {
+        margin: 8px 0;
+    }
+
+    #mic-button {
+        padding: 6px 10px;
+        font-size: 11px;
+        width: 80%;
+        max-width: 180px;
+    }
+
+    .mic-status {
+        font-size: 11px;
+        height: 16px;
     }
 }
