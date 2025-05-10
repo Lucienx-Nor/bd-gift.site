@@ -1,65 +1,72 @@
-// Flower animation JavaScript
 document.addEventListener("DOMContentLoaded", function () {
-    // Get elements
-    const flowersContainer = document.querySelector(".page-4 .flowers");
+    // Lấy các phần tử cần thiết
+    const nightFlowers = document.querySelector(".night-flowers");
     const bloomButton = document.getElementById("bloom-flowers");
+    const page4 = document.getElementById("page-4");
 
-    // Initialize flowers in not-loaded state
-    if (flowersContainer) {
-        flowersContainer.classList.add("not-loaded");
+    // Hàm tạo ánh sáng lấp lánh ngẫu nhiên (tùy chọn)
+    function createRandomSparkles() {
+        // Có thể bỏ qua nếu không cần
+        console.log("Hiệu ứng lấp lánh được tạo");
     }
 
-    // Function to make flowers bloom
+    // Hàm làm nở hoa
     function bloomFlowers() {
-        if (flowersContainer) {
-            // Remove not-loaded class to start animations
-            flowersContainer.classList.remove("not-loaded");
+        if (nightFlowers) {
+            // Loại bỏ class not-loaded để bắt đầu animation
+            nightFlowers.classList.remove("not-loaded");
 
-            // Add growing animation classes to elements
-            const flowers = document.querySelectorAll(".flower");
-            flowers.forEach((flower, index) => {
-                flower.style.setProperty("--d", 0.5 + index * 0.2 + "s");
-                if (!flower.classList.contains("grow-ans")) {
-                    flower.classList.add("grow-ans");
-                }
-            });
+            // Cập nhật trạng thái nút
+            if (bloomButton) {
+                bloomButton.textContent = "Hoa Đang Nở!";
+                bloomButton.disabled = true;
 
-            // Update button text and appearance
-            bloomButton.textContent = "Hoa Đang Nở!";
-            bloomButton.disabled = true;
+                // Đặt lại nút sau khi hoàn thành animation
+                setTimeout(() => {
+                    bloomButton.textContent = "Làm Nở Hoa";
+                    bloomButton.disabled = false;
+                }, 4000);
+            }
 
-            // Reset button after animation completes
-            setTimeout(() => {
-                bloomButton.textContent = "Làm Nở Hoa";
-                bloomButton.disabled = false;
-            }, 4000);
+            // Thêm hiệu ứng lấp lánh (nếu cần)
+            try {
+                createRandomSparkles();
+            } catch (error) {
+                console.log("Không thể tạo hiệu ứng lấp lánh");
+            }
         }
     }
 
-    // Event listener for bloom button
+    // Xử lý nút làm nở hoa
     if (bloomButton) {
         bloomButton.addEventListener("click", bloomFlowers);
     }
 
-    // Auto-bloom when page 4 is shown
+    // Thêm listener cho các nút điều hướng
     const navItems = document.querySelectorAll(".nav-item");
-    if (navItems) {
-        navItems.forEach((item) => {
-            item.addEventListener("click", function () {
-                const targetPage = this.getAttribute("data-page");
+    navItems.forEach((item) => {
+        item.addEventListener("click", function () {
+            const targetPage = this.getAttribute("data-page");
 
-                if (targetPage === "page-4") {
-                    // Small delay to ensure page transition completes
-                    setTimeout(bloomFlowers, 300);
+            // Nếu đang chuyển đến trang 4
+            if (targetPage === "page-4") {
+                // Chờ một chút để chuyển trang hoàn tất rồi mới hiển thị hoa
+                setTimeout(bloomFlowers, 300);
+            } else {
+                // Nếu rời khỏi trang 4, đặt lại trạng thái not-loaded
+                if (nightFlowers) {
+                    nightFlowers.classList.add("not-loaded");
                 }
-            });
+            }
         });
-    }
+    });
 
-    // Also check if page 4 is already active on page load
-    const page4 = document.getElementById("page-4");
-    if (page4 && page4.classList.contains("active")) {
-        // Add a short delay to ensure everything is loaded
+    // Kiểm tra nếu trang 4 là trang đang hoạt động khi tải trang
+    const isPage4Active =
+        window.location.hash === "#page-4" ||
+        (page4 && page4.classList.contains("active"));
+
+    if (isPage4Active) {
         setTimeout(bloomFlowers, 500);
     }
 });

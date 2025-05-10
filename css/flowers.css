@@ -1,52 +1,73 @@
-/* CSS để tích hợp hiệu ứng hoa đêm vào page-4 */
+/**
+ * PHẦN 7: HIỆU ỨNG TRANG BÓ HOA
+ */
 
-/* Reset và Variables */
-:root {
-    --dark-color: #000;
-    --fl-speed: 0.8s;
-    --accent-soft: #f5d6d6;
-    --accent-color: #d67e7e;
-    --dark-accent: #b55959;
-    --petal-color-1: #f8a5c2;
-    --petal-color-2: #eaabab;
-    --stem-dark: #2d8645;
-    --stem-light: #4caf50;
+/* Phần container cho bó hoa */
+.bouquet-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+    height: 380px; /* Increased height for more space */
 }
 
-/* Night Flowers Container - điều chỉnh kích thước cho phù hợp với bouquet-container */
+/* Nút làm nở hoa */
+.bouquet-button {
+    display: block;
+    margin: 20px auto 10px;
+    padding: 10px 25px;
+    background-color: var(--light-accent);
+    color: var(--text-color);
+    border: none;
+    border-radius: 30px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.bouquet-button:hover {
+    background-color: var(--accent-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow);
+}
+
+.bouquet-button:active {
+    transform: translateY(0);
+}
+
+/* === PHẦN HOA TỰ ĐỘNG === */
+/* Container cho bó hoa ban đêm */
 .night-flowers {
     position: relative;
+    transform: scale(0.7); /* Reduced scale to make flowers smaller */
     width: 100%;
-    height: 300px;
-    perspective: 1000px;
-    background: radial-gradient(
-            circle at 20% 20%,
-            rgba(255, 255, 255, 0.1) 0%,
-            transparent 50%
-        ),
-        #000;
+    height: 150%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
     overflow: hidden;
-    border-radius: 8px;
+    perspective: 1000px;
 }
 
-/* Night Background */
+/* Phần nền tối của bó hoa */
 .night {
     position: absolute;
-    left: 0;
+    left: 50%;
     top: 0;
+    transform: translateX(-50%);
     width: 100%;
     height: 100%;
     filter: blur(0.1vmin);
-    background-image: radial-gradient(
-            ellipse at top,
-            transparent 0%,
-            var(--dark-color)
-        ),
-        radial-gradient(
-            ellipse at bottom,
-            var(--dark-color),
-            rgba(234, 171, 171, 0.2)
-        ),
+    background-image: radial-gradient(ellipse at top, transparent 0%, #000),
+        radial-gradient(ellipse at bottom, #000, rgba(255, 220, 220, 0.2)),
         repeating-linear-gradient(
             220deg,
             rgb(0, 0, 0) 0px,
@@ -68,42 +89,33 @@
             transparent 19px,
             transparent 22px
         ),
-        linear-gradient(
-            90deg,
-            rgba(255, 245, 245, 0.3),
-            rgba(240, 240, 240, 0.3)
-        );
-    opacity: 0.85;
+        linear-gradient(90deg, #f5d6d6, rgb(240, 240, 240));
 }
 
-/* Flowers Container - Giảm tỷ lệ tổng thể */
+/* Container hoa */
 .flowers {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.65); /* Giảm từ 0.9 xuống 0.65 */
-    height: 80%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    position: relative;
+    transform: scale(0.75); /* Further reduced scale for better fit */
+    margin-bottom: 20px; /* Added margin to push flowers up a bit from bottom */
 }
 
+/* === PHẦN HOA === */
 /* Flower Base */
 .flower {
+    --fl-speed: 0.8s;
     position: absolute;
-    bottom: 0;
+    bottom: 10vmin;
     transform-origin: bottom center;
     z-index: 10;
 }
 
-/* Flower Variations - Điều chỉnh khoảng cách giữa các bông hoa */
+/* Hoa thứ nhất */
 .flower--1 {
     animation: moving-flower-1 4s linear infinite;
 }
 
 .flower--1 .flower__line {
-    height: 32vmin; /* Giảm từ 40vmin xuống 32vmin */
+    height: 60vmin; /* Reduced height for better proportions */
     animation-delay: 0.3s;
 }
 
@@ -131,6 +143,7 @@
     animation: blooming-leaf-left var(--fl-speed) 2s backwards;
 }
 
+/* Hoa thứ hai */
 .flower--2 {
     left: 50%;
     transform: rotate(20deg);
@@ -138,7 +151,7 @@
 }
 
 .flower--2 .flower__line {
-    height: 36vmin; /* Giảm từ 45vmin xuống 36vmin */
+    height: 50vmin; /* Reduced height for better proportions */
     animation-delay: 0.6s;
 }
 
@@ -158,14 +171,14 @@
     animation: blooming-leaf-left var(--fl-speed) 1.3s backwards;
 }
 
+/* Hoa thứ ba */
 .flower--3 {
-    left: 50%; /* Tăng từ 52% lên 54% */
+    left: 50%;
     transform: rotate(-15deg);
     animation: moving-flower-3 4s linear infinite;
 }
 
 .flower--3 .flower__line {
-    height: 34vmin; /* Giảm từ 42vmin xuống 34vmin */
     animation-delay: 0.9s;
 }
 
@@ -185,11 +198,10 @@
     animation: blooming-leaf-left var(--fl-speed) 1.9s backwards;
 }
 
-/* Flower Leafs - Giảm kích thước cánh hoa */
+/* Phần lá hoa */
 .flower__leafs {
     position: relative;
     animation: blooming-flower 2s backwards;
-    transform: scale(0.8); /* Giảm kích thước xuống 80% */
 }
 
 .flower__leafs--1 {
@@ -207,71 +219,61 @@
 .flower__leafs::after {
     content: "";
     position: absolute;
-    left: 50%;
-    top: -10%;
-    transform: translateX(-50%);
-    width: 8vmin; /* Giảm từ 10vmin xuống 8vmin */
-    height: 8vmin; /* Giảm từ 10vmin xuống 8vmin */
-    background-color: rgba(245, 214, 214, 0.7);
-    filter: blur(10vmin); /* Giảm từ 12vmin xuống 10vmin */
-    z-index: -1;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -100%);
+    width: 8vmin;
+    height: 8vmin;
+    background-color: #f5d6d6;
+    filter: blur(10vmin);
 }
 
 .flower__leaf {
     position: absolute;
     bottom: 0;
     left: 50%;
-    width: 5vmin; /* Giảm từ 7vmin xuống 5vmin */
-    height: 8vmin; /* Giảm từ 10vmin xuống 8vmin */
+    width: 8vmin;
+    height: 11vmin;
     border-radius: 51% 49% 47% 53% / 44% 45% 55% 69%;
-    background: linear-gradient(
-        120deg,
-        var(--accent-color),
-        var(--petal-color-1)
-    );
+    background-color: #f8a5c2;
+    background-image: linear-gradient(to top, #eaabab, #f8a5c2);
     transform-origin: bottom center;
-    opacity: 0.95;
-    box-shadow: inset 0 0 3vmin rgba(255, 255, 255, 0.6),
-        0 2px 5px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+    box-shadow: inset 0 0 2vmin rgba(255, 255, 255, 0.5);
 }
 
 .flower__leaf--1 {
-    transform: translate(-20%, 2%) rotateY(40deg) rotateX(-50deg);
+    transform: translate(-10%, 1%) rotateY(40deg) rotateX(-50deg);
 }
 
 .flower__leaf--2 {
-    transform: translate(-50%, -5%) rotateX(40deg);
+    transform: translate(-50%, -4%) rotateX(40deg);
 }
 
 .flower__leaf--3 {
-    transform: translate(-80%, 0%) rotateY(45deg) rotateX(50deg);
+    transform: translate(-90%, 0%) rotateY(45deg) rotateX(50deg);
 }
 
 .flower__leaf--4 {
-    width: 5vmin; /* Giảm từ 7vmin xuống 5vmin */
-    height: 5vmin; /* Giảm từ 7vmin xuống 5vmin */
+    width: 8vmin;
+    height: 8vmin;
     transform-origin: bottom left;
-    border-radius: 5vmin 12vmin 5vmin 5vmin;
-    transform: translate(0%, 20%) rotateX(70deg) rotate(-45deg);
-    background: linear-gradient(
-        150deg,
-        var(--accent-color),
-        var(--petal-color-1)
-    );
+    border-radius: 4vmin 10vmin 4vmin 4vmin;
+    transform: translate(-0%, 18%) rotateX(70deg) rotate(-43deg);
+    background-image: linear-gradient(to top, #f8a5c2, #eaabab);
     z-index: 1;
-    opacity: 0.9;
+    opacity: 0.8;
 }
 
-/* White Circle */
+/* Tròn trắng giữa hoa */
 .flower__white-circle {
     position: absolute;
-    left: -3vmin; /* Từ -4vmin lên -3vmin */
-    top: -3vmin; /* Từ -3.5vmin lên -3vmin */
-    width: 8vmin; /* Giảm từ 10vmin xuống 8vmin */
-    height: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
+    left: -3.5vmin;
+    top: -3vmin;
+    width: 9vmin;
+    height: 4vmin;
     border-radius: 50%;
-    background: radial-gradient(circle, #fff 30%, #ffeaa7 70%);
-    box-shadow: 0 0 10px rgba(255, 234, 167, 0.5);
+    background-color: #fff;
 }
 
 .flower__white-circle::after {
@@ -280,65 +282,52 @@
     left: 50%;
     top: 45%;
     transform: translate(-50%, -50%);
-    width: 70%;
-    height: 70%;
+    width: 60%;
+    height: 60%;
     border-radius: inherit;
-    background: repeating-linear-gradient(
-            135deg,
-            rgba(0, 0, 0, 0.05) 0px,
-            rgba(0, 0, 0, 0.05) 1px,
-            transparent 1px,
-            transparent 10px
-        ),
-        linear-gradient(90deg, #ffeaa7, #fdcb6e);
+    background-image: linear-gradient(
+        90deg,
+        rgb(255, 235, 18),
+        rgb(255, 206, 0)
+    );
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
-/* Flower Line - Giảm độ dày của thân cây */
+/* Thân hoa */
 .flower__line {
-    height: 32vmin; /* Giảm từ 40vmin xuống 32vmin */
-    width: 1vmin; /* Giảm từ 1.2vmin xuống 1vmin */
-    background: linear-gradient(
+    height: 55vmin;
+    width: 1.5vmin;
+    background-image: linear-gradient(
             to left,
-            rgba(0, 0, 0, 0.2),
+            rgb(0, 0, 0, 0.2),
             transparent,
             rgba(255, 255, 255, 0.2)
         ),
-        linear-gradient(
-            to top,
-            transparent 10%,
-            var(--stem-dark),
-            var(--stem-light)
-        );
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.6);
+        linear-gradient(to top, transparent 10%, #2d8645, #4caf50);
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
     animation: grow-flower-tree 4s backwards;
 }
 
 .flower__line__leaf {
-    --w: 4vmin; /* Giảm từ 6vmin xuống 4vmin */
-    --h: calc(var(--w) + 1vmin); /* Giảm từ 1.5vmin xuống 1vmin */
+    --w: 7vmin;
+    --h: calc(var(--w) + 2vmin);
     position: absolute;
     top: 20%;
-    left: 50%;
+    left: 90%;
     width: var(--w);
     height: var(--h);
     border-top-right-radius: var(--h);
     border-bottom-left-radius: var(--h);
-    background: linear-gradient(
-        to top,
-        rgba(45, 134, 69, 0.5),
-        var(--stem-light)
-    );
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(to top, rgba(45, 134, 69, 0.4), #4caf50);
 }
 
 .flower__line__leaf--1 {
-    top: 25%;
-    transform: rotate(30deg) rotateY(30deg);
+    transform: rotate(70deg) rotateY(30deg);
 }
 
 .flower__line__leaf--2 {
-    top: 40%;
-    transform: rotate(40deg) rotateY(30deg);
+    top: 45%;
+    transform: rotate(70deg) rotateY(30deg);
 }
 
 .flower__line__leaf--3,
@@ -348,44 +337,42 @@
     border-bottom-left-radius: 0;
     border-top-left-radius: var(--h);
     border-bottom-right-radius: var(--h);
-    left: -50%;
+    left: -460%;
     top: 12%;
-    transform: rotate(-30deg) rotateY(30deg);
+    transform: rotate(-70deg) rotateY(30deg);
 }
 
 .flower__line__leaf--4 {
     top: 40%;
-    left: -60%;
-    transform: rotate(-40deg) rotateY(30deg);
 }
 
 .flower__line__leaf--5 {
-    top: 15%;
+    top: 0;
     transform-origin: left;
-    transform: rotate(20deg) rotateY(30deg) scale(0.6);
+    transform: rotate(70deg) rotateY(30deg) scale(0.6);
 }
 
 .flower__line__leaf--6 {
-    top: 10%;
-    left: -40%;
+    top: -2%;
+    left: -450%;
     transform-origin: right;
-    transform: rotate(-20deg) rotateY(30deg) scale(0.6);
+    transform: rotate(-70deg) rotateY(30deg) scale(0.6);
 }
 
-/* Light - Giảm kích thước các đốm sáng */
+/* Ánh sáng */
 .flower__light {
     position: absolute;
     bottom: 0vmin;
-    width: 0.8vmin; /* Giảm từ 1.2vmin xuống 0.8vmin */
-    height: 0.8vmin; /* Giảm từ 1.2vmin xuống 0.8vmin */
-    background: radial-gradient(circle, #ffff00, #ffeb3b);
+    width: 1vmin;
+    height: 1vmin;
+    background-color: #f7c9c9;
     border-radius: 50%;
     filter: blur(0.2vmin);
     animation: light-ans 4s linear infinite backwards;
 }
 
 .flower__light:nth-child(odd) {
-    background: radial-gradient(circle, var(--accent-soft), #ffe0e0);
+    background-color: white;
 }
 
 .flower__light--1 {
@@ -399,12 +386,12 @@
 }
 
 .flower__light--3 {
-    left: -5vmin;
+    left: -6vmin;
     animation-delay: 0.3s;
 }
 
 .flower__light--4 {
-    left: 5vmin;
+    left: 6vmin;
     animation-delay: 0.9s;
 }
 
@@ -414,7 +401,7 @@
 }
 
 .flower__light--6 {
-    left: -3.5vmin;
+    left: -4vmin;
     animation-delay: 3s;
 }
 
@@ -424,37 +411,42 @@
 }
 
 .flower__light--8 {
-    left: -4.5vmin;
+    left: -6vmin;
     animation-delay: 3.5s;
 }
 
-/* Grass - Giảm kích thước cỏ */
+/* === CỎ === */
+/* Cỏ chính */
 .flower__grass {
-    --c: var(--stem-light);
-    --line-w: 1vmin; /* Giảm từ 1.2vmin xuống 1vmin */
+    --c: #4caf50;
+    --line-w: 1.5vmin;
     position: absolute;
-    bottom: 0;
-    left: 45%;
-    width: 8vmin; /* Giảm từ 10vmin xuống 8vmin */
-    height: 12vmin; /* Giảm từ 15vmin xuống 12vmin */
+    bottom: 12vmin;
+    left: -7vmin;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     z-index: 20;
     transform-origin: bottom center;
+    transform: rotate(-48deg) rotateY(40deg);
 }
 
 .flower__grass--1 {
-    left: 45%;
     animation: moving-grass 2s linear infinite;
 }
 
 .flower__grass--2 {
-    left: 55%;
-    transform: scale(0.8);
+    left: 2vmin;
+    bottom: 10vmin;
+    transform: scale(0.5) rotate(75deg) rotateX(10deg) rotateY(-200deg);
+    opacity: 0.8;
+    z-index: 0;
     animation: moving-grass--2 1.5s linear infinite;
 }
 
 .flower__grass--top {
-    width: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
-    height: 6vmin; /* Giảm từ 8vmin xuống 6vmin */
+    width: 7vmin;
+    height: 10vmin;
     border-top-right-radius: 100%;
     border-right: var(--line-w) solid var(--c);
     transform-origin: bottom center;
@@ -464,12 +456,12 @@
 .flower__grass--bottom {
     margin-top: -2px;
     width: var(--line-w);
-    height: 12vmin; /* Giảm từ 15vmin xuống 12vmin */
+    height: 25vmin;
     background-image: linear-gradient(to top, transparent, var(--c));
 }
 
 .flower__grass__leaf {
-    --size: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
+    --size: 10vmin;
     position: absolute;
     width: calc(var(--size) * 2.1);
     height: var(--size);
@@ -487,7 +479,7 @@
 .flower__grass__leaf--1 {
     top: -6%;
     left: 30%;
-    --size: 2.5vmin; /* Giảm từ 3vmin xuống 2.5vmin */
+    --size: 6vmin;
     transform: rotate(-20deg);
     animation: growing-grass-ans--1 2s 2.6s backwards;
 }
@@ -495,7 +487,7 @@
 .flower__grass__leaf--2 {
     top: -5%;
     left: -110%;
-    --size: 2.5vmin; /* Giảm từ 3vmin xuống 2.5vmin */
+    --size: 6vmin;
     transform: rotate(10deg);
     animation: growing-grass-ans--2 2s 2.4s linear backwards;
 }
@@ -503,7 +495,7 @@
 .flower__grass__leaf--3 {
     top: 5%;
     left: 60%;
-    --size: 3vmin; /* Giảm từ 4vmin xuống 3vmin */
+    --size: 8vmin;
     transform: rotate(-18deg) rotateX(-20deg);
     animation: growing-grass-ans--3 2s 2.2s linear backwards;
 }
@@ -511,7 +503,7 @@
 .flower__grass__leaf--4 {
     top: 6%;
     left: -135%;
-    --size: 3vmin; /* Giảm từ 4vmin xuống 3vmin */
+    --size: 8vmin;
     transform: rotate(2deg);
     animation: growing-grass-ans--4 2s 2s linear backwards;
 }
@@ -519,7 +511,7 @@
 .flower__grass__leaf--5 {
     top: 20%;
     left: 60%;
-    --size: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
+    --size: 10vmin;
     transform: rotate(-24deg) rotateX(-20deg);
     animation: growing-grass-ans--5 2s 1.8s linear backwards;
 }
@@ -527,7 +519,7 @@
 .flower__grass__leaf--6 {
     top: 22%;
     left: -180%;
-    --size: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
+    --size: 10vmin;
     transform: rotate(10deg);
     animation: growing-grass-ans--6 2s 1.6s linear backwards;
 }
@@ -535,7 +527,7 @@
 .flower__grass__leaf--7 {
     top: 39%;
     left: 70%;
-    --size: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
+    --size: 10vmin;
     transform: rotate(-10deg);
     animation: growing-grass-ans--7 2s 1.4s linear backwards;
 }
@@ -543,7 +535,7 @@
 .flower__grass__leaf--8 {
     top: 40%;
     left: -215%;
-    --size: 5vmin; /* Giảm từ 6vmin xuống 5vmin */
+    --size: 11vmin;
     transform: rotate(10deg);
     animation: growing-grass-ans--8 2s 1.2s linear backwards;
 }
@@ -554,21 +546,21 @@
     right: 0%;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     filter: blur(1.5vmin);
     z-index: 100;
 }
 
-/* Grass Long - Giảm kích thước cỏ dài */
+/* Cỏ dài */
 .flower__g-long {
-    --w: 0.8vmin; /* Giảm từ 1vmin xuống 0.8vmin */
-    --h: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
-    --c: #159faa;
+    --w: 2vmin;
+    --h: 6vmin;
+    --c: #4caf50;
     position: absolute;
-    bottom: 0;
-    left: 40%;
+    bottom: 10vmin;
+    left: -3vmin;
     transform-origin: bottom center;
-    transform: rotate(0deg);
+    transform: rotate(-30deg) rotateY(-20deg);
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -577,47 +569,39 @@
 
 .flower__g-long__top {
     top: calc(var(--h) * -1);
-    width: calc(var(--w) + 0.8vmin); /* Giảm từ 1vmin xuống 0.8vmin */
+    width: calc(var(--w) + 1vmin);
     height: var(--h);
     border-top-right-radius: 100%;
-    border-right: 0.6vmin solid var(--c); /* Giảm từ 0.7vmin xuống 0.6vmin */
-    transform: translate(-0.6vmin, 0.8vmin); /* Điều chỉnh từ 0.7vmin, 1vmin */
+    border-right: 0.7vmin solid var(--c);
+    transform: translate(-0.7vmin, 1vmin);
 }
 
 .flower__g-long__bottom {
     width: var(--w);
-    height: 12vmin; /* Giảm từ 15vmin xuống 12vmin */
+    height: 50vmin;
     transform-origin: bottom center;
     background-image: linear-gradient(to top, transparent 30%, var(--c));
     box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
     clip-path: polygon(35% 0, 65% 1%, 100% 100%, 0% 100%);
 }
 
-/* Grass Right - Giảm kích thước cỏ bên phải */
+/* Cỏ bên phải */
 .flower__g-right {
     position: absolute;
-    bottom: 0;
-    left: 55%;
+    bottom: 6vmin;
+    left: -2vmin;
     transform-origin: bottom left;
-    transform: rotate(0deg);
+    transform: rotate(20deg);
 }
 
 .flower__g-right .leaf {
-    width: 8vmin; /* Giảm từ 10vmin xuống 8vmin */
-    height: 12vmin; /* Giảm từ 15vmin xuống 12vmin */
+    width: 30vmin;
+    height: 50vmin;
     border-top-left-radius: 100%;
-    border-left: 0.8vmin solid var(--stem-dark); /* Giảm từ 1vmin xuống 0.8vmin */
-    background-image: linear-gradient(
-        to bottom,
-        transparent,
-        var(--dark-color) 60%
-    );
-    -webkit-mask-image: linear-gradient(
-        to top,
-        transparent 30%,
-        var(--stem-dark) 60%
-    );
-    mask-image: linear-gradient(to top, transparent 30%, var(--stem-dark) 60%);
+    border-left: 2vmin solid #2d8645;
+    background-image: linear-gradient(to bottom, transparent, #000 60%);
+    -webkit-mask-image: linear-gradient(to top, transparent 30%, #2d8645 60%);
+    mask-image: linear-gradient(to top, transparent 30%, #2d8645 60%);
 }
 
 .flower__g-right--1 {
@@ -625,35 +609,35 @@
 }
 
 .flower__g-right--2 {
-    left: 60%;
+    left: 5vmin;
     transform: rotateY(-180deg);
     animation: flower-g-right-ans--2 3s linear infinite;
 }
 
 .flower__g-right--2 .leaf {
-    height: 16vmin; /* Giảm từ 20vmin xuống 16vmin */
+    height: 75vmin;
     filter: blur(0.3vmin);
     opacity: 0.8;
 }
 
-/* Grass Front - Giảm kích thước cỏ trước */
+/* Cỏ phía trước */
 .flower__g-front {
     position: absolute;
-    bottom: 0;
-    left: 47%;
+    bottom: 6vmin;
+    left: 2.5vmin;
     z-index: 100;
     transform-origin: bottom center;
-    transform: rotate(0deg) scale(0.9); /* Giảm từ 1.04 xuống 0.9 */
+    transform: rotate(-28deg) rotateY(30deg) scale(1.04);
     animation: flower__g-front-ans 2s linear infinite;
 }
 
 .flower__g-front__line {
     width: 0.3vmin;
-    height: 12vmin; /* Giảm từ 15vmin xuống 12vmin */
+    height: 20vmin;
     background-image: linear-gradient(
         to top,
         transparent,
-        var(--stem-dark),
+        #2d8645,
         transparent 100%
     );
     position: relative;
@@ -678,36 +662,36 @@
 }
 
 .flower__g-front__leaf-wrapper--1 {
-    top: -7vmin; /* Giảm từ -8vmin xuống -7vmin */
-    transform: scale(0.6); /* Giảm từ 0.7 xuống 0.6 */
+    top: -8vmin;
+    transform: scale(0.7);
     animation: flower__g-front__leaf-ans 1s 5.5s ease-in backwards !important;
 }
 
 .flower__g-front__leaf-wrapper--2 {
-    top: -7vmin; /* Giảm từ -8vmin xuống -7vmin */
-    transform: rotateY(-180deg) scale(0.6) !important; /* Giảm từ 0.7 xuống 0.6 */
+    top: -8vmin;
+    transform: rotateY(-180deg) scale(0.7) !important;
     animation: flower__g-front__leaf-left-ans-2 1s 4.6s ease-in backwards !important;
 }
 
 .flower__g-front__leaf-wrapper--3 {
-    top: -2.5vmin; /* Giảm từ -3vmin xuống -2.5vmin */
+    top: -3vmin;
     animation: flower__g-front__leaf-ans 1s 4.6s ease-in backwards;
 }
 
 .flower__g-front__leaf-wrapper--4 {
-    top: -2.5vmin; /* Giảm từ -3vmin xuống -2.5vmin */
-    transform: rotateY(-180deg) scale(0.8) !important; /* Giảm từ 0.9 xuống 0.8 */
+    top: -3vmin;
+    transform: rotateY(-180deg) scale(0.9) !important;
     animation: flower__g-front__leaf-left-ans-2 1s 4.6s ease-in backwards !important;
 }
 
 .flower__g-front__leaf-wrapper--5,
 .flower__g-front__leaf-wrapper--6 {
-    top: 1.5vmin; /* Giảm từ 2vmin xuống 1.5vmin */
+    top: 2vmin;
 }
 
 .flower__g-front__leaf-wrapper--7,
 .flower__g-front__leaf-wrapper--8 {
-    top: 5.5vmin; /* Giảm từ 6.5vmin xuống 5.5vmin */
+    top: 6.5vmin;
 }
 
 .flower__g-front__leaf-wrapper--2 {
@@ -735,56 +719,48 @@
 }
 
 .flower__g-front__leaf {
-    width: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
-    height: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
+    width: 10vmin;
+    height: 10vmin;
     border-radius: 100% 0% 0% 100% / 100% 100% 0% 0%;
-    box-shadow: inset 0 2px 1vmin hsla(184, 97%, 58%, 0.2);
-    background-image: linear-gradient(
-            to bottom left,
-            transparent,
-            var(--dark-color)
-        ),
+    box-shadow: inset 0 2px 1vmin rgba(76, 175, 80, 0.2);
+    background-image: linear-gradient(to bottom left, transparent, #000),
         linear-gradient(
             to bottom right,
-            var(--stem-light) 50%,
+            #4caf50 50%,
             transparent 50%,
             transparent
         );
     -webkit-mask-image: linear-gradient(
         to bottom right,
-        var(--stem-light) 50%,
+        #4caf50 50%,
         transparent 50%,
         transparent
     );
     mask-image: linear-gradient(
         to bottom right,
-        var(--stem-light) 50%,
+        #4caf50 50%,
         transparent 50%,
         transparent
     );
 }
 
-/* Grass FR - Giảm kích thước FR */
+/* Cỏ FR */
 .flower__g-fr {
     position: absolute;
-    bottom: 0;
-    left: 43%;
+    bottom: -4vmin;
+    left: 1vmin;
     transform-origin: bottom left;
     z-index: 10;
     animation: flower__g-fr-ans 2s linear infinite;
 }
 
 .flower__g-fr .leaf {
-    width: 8vmin; /* Giảm từ 10vmin xuống 8vmin */
-    height: 12vmin; /* Giảm từ 15vmin xuống 12vmin */
+    width: 30vmin;
+    height: 50vmin;
     border-top-left-radius: 100%;
-    border-left: 0.8vmin solid var(--stem-dark); /* Giảm từ 1vmin xuống 0.8vmin */
-    -webkit-mask-image: linear-gradient(
-        to top,
-        transparent 25%,
-        var(--stem-dark) 50%
-    );
-    mask-image: linear-gradient(to top, transparent 25%, var(--stem-dark) 50%);
+    border-left: 2vmin solid #2d8645;
+    -webkit-mask-image: linear-gradient(to top, transparent 25%, #2d8645 50%);
+    mask-image: linear-gradient(to top, transparent 25%, #2d8645 50%);
     position: relative;
     z-index: 1;
 }
@@ -793,129 +769,125 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
-    height: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
+    width: 10vmin;
+    height: 10vmin;
     border-radius: 100% 0% 0% 100% / 100% 100% 0% 0%;
-    box-shadow: inset 0 2px 1vmin hsla(184, 97%, 58%, 0.2);
-    background-image: linear-gradient(
-            to bottom left,
-            transparent,
-            var(--dark-color) 98%
-        ),
+    box-shadow: inset 0 2px 1vmin rgba(76, 175, 80, 0.2);
+    background-image: linear-gradient(to bottom left, transparent, #000 98%),
         linear-gradient(
             to bottom right,
-            var(--accent-color) 45%,
+            #4caf50 45%,
             transparent 50%,
             transparent
         );
     -webkit-mask-image: linear-gradient(
         135deg,
-        var(--stem-light) 40%,
+        #4caf50 40%,
         transparent 50%,
         transparent
     );
     mask-image: linear-gradient(
         135deg,
-        var(--stem-light) 40%,
+        #4caf50 40%,
         transparent 50%,
         transparent
     );
 }
 
 .flower__g-fr__leaf--1 {
-    left: 4vmin; /* Giảm từ 5vmin xuống 4vmin */
+    left: 20vmin;
     transform: rotate(45deg);
     animation: flower__g-fr-leaft-ans-1 0.5s 5.2s linear backwards;
 }
 
 .flower__g-fr__leaf--2 {
-    left: 2.5vmin; /* Giảm từ 3vmin xuống 2.5vmin */
-    top: -1.5vmin; /* Giảm từ -2vmin xuống -1.5vmin */
+    left: 12vmin;
+    top: -7vmin;
     transform: rotate(25deg) rotateY(-180deg);
     animation: flower__g-fr-leaft-ans-6 0.5s 5s linear backwards;
 }
 
 .flower__g-fr__leaf--3 {
-    left: 3.5vmin; /* Giảm từ 4vmin xuống 3.5vmin */
-    top: 1.5vmin; /* Giảm từ 2vmin xuống 1.5vmin */
+    left: 15vmin;
+    top: 6vmin;
     transform: rotate(55deg);
     animation: flower__g-fr-leaft-ans-5 0.5s 4.8s linear backwards;
 }
 
 .flower__g-fr__leaf--4 {
-    left: 1.5vmin; /* Giảm từ 2vmin xuống 1.5vmin */
-    top: -0.8vmin; /* Giảm từ -1vmin xuống -0.8vmin */
+    left: 6vmin;
+    top: -2vmin;
     transform: rotate(25deg) rotateY(-180deg);
     animation: flower__g-fr-leaft-ans-6 0.5s 4.6s linear backwards;
 }
 
 .flower__g-fr__leaf--5 {
-    left: 2.5vmin; /* Giảm từ 3vmin xuống 2.5vmin */
-    top: 3.5vmin; /* Giảm từ 4vmin xuống 3.5vmin */
+    left: 10vmin;
+    top: 14vmin;
     transform: rotate(55deg);
     animation: flower__g-fr-leaft-ans-5 0.5s 4.4s linear backwards;
 }
 
 .flower__g-fr__leaf--6 {
-    left: 0.8vmin; /* Giảm từ 1vmin xuống 0.8vmin */
-    top: 1.5vmin; /* Giảm từ 2vmin xuống 1.5vmin */
+    left: 0vmin;
+    top: 6vmin;
     transform: rotate(25deg) rotateY(-180deg);
     animation: flower__g-fr-leaft-ans-6 0.5s 4.2s linear backwards;
 }
 
 .flower__g-fr__leaf--7 {
-    left: 1.5vmin; /* Giảm từ 2vmin xuống 1.5vmin */
-    top: 5vmin; /* Giảm từ 6vmin xuống 5vmin */
+    left: 5vmin;
+    top: 22vmin;
     transform: rotate(45deg);
     animation: flower__g-fr-leaft-ans-7 0.5s 4s linear backwards;
 }
 
 .flower__g-fr__leaf--8 {
-    left: 0vmin;
-    top: 3.5vmin; /* Giảm từ 4vmin xuống 3.5vmin */
+    left: -4vmin;
+    top: 15vmin;
     transform: rotate(15deg) rotateY(-180deg);
     animation: flower__g-fr-leaft-ans-8 0.5s 3.8s linear backwards;
 }
 
-/* Long Grass - Giảm kích thước các cỏ dài */
+/* Cỏ dài */
 .long-g {
     position: absolute;
-    bottom: 0;
-    left: 38%;
+    bottom: 25vmin;
+    left: -42vmin;
     transform-origin: bottom left;
 }
 
 .long-g--1 {
-    bottom: 0;
-    transform: scale(0.7) rotate(0deg); /* Giảm từ 0.8 xuống 0.7 */
+    bottom: 0vmin;
+    transform: scale(0.8) rotate(-5deg);
 }
 
 .long-g--1 .leaf {
     -webkit-mask-image: linear-gradient(
         to top,
         transparent 40%,
-        var(--stem-dark) 80%
+        #2d8645 80%
     ) !important;
     mask-image: linear-gradient(
         to top,
         transparent 40%,
-        var(--stem-dark) 80%
+        #2d8645 80%
     ) !important;
 }
 
 .long-g--1 .leaf--1 {
-    --w: 2.5vmin; /* Giảm từ 3vmin xuống 2.5vmin */
-    --h: 12vmin; /* Giảm từ 15vmin xuống 12vmin */
-    left: -0.8vmin; /* Giảm từ -1vmin xuống -0.8vmin */
+    --w: 5vmin;
+    --h: 60vmin;
+    left: -2vmin;
     transform: rotate(3deg) rotateY(-180deg);
 }
 
 .long-g--2,
 .long-g--3 {
-    bottom: 0;
-    left: 42%;
+    bottom: -3vmin;
+    left: -35vmin;
     transform-origin: center;
-    transform: scale(0.5); /* Giảm từ 0.6 xuống 0.5 */
+    transform: scale(0.6) rotateX(60deg);
 }
 
 .long-g--2 .leaf,
@@ -923,133 +895,129 @@
     -webkit-mask-image: linear-gradient(
         to top,
         transparent 50%,
-        var(--stem-dark) 80%
+        #2d8645 80%
     ) !important;
     mask-image: linear-gradient(
         to top,
         transparent 50%,
-        var(--stem-dark) 80%
+        #2d8645 80%
     ) !important;
 }
 
 .long-g--2 .leaf--1,
 .long-g--3 .leaf--1 {
-    left: -0.8vmin; /* Giảm từ -1vmin xuống -0.8vmin */
+    left: -1vmin;
     transform: rotateY(-180deg);
 }
 
 .long-g--3 {
-    left: 46%;
-    bottom: 0;
+    left: -17vmin;
+    bottom: 0vmin;
 }
 
 .long-g--3 .leaf {
     -webkit-mask-image: linear-gradient(
         to top,
         transparent 40%,
-        var(--stem-dark) 80%
+        #2d8645 80%
     ) !important;
     mask-image: linear-gradient(
         to top,
         transparent 40%,
-        var(--stem-dark) 80%
+        #2d8645 80%
     ) !important;
 }
 
 .long-g--4 {
-    left: 50%;
-    bottom: 0;
+    left: 25vmin;
+    bottom: -3vmin;
     transform-origin: center;
-    transform: scale(0.5); /* Giảm từ 0.6 xuống 0.5 */
+    transform: scale(0.6) rotateX(60deg);
 }
 
 .long-g--4 .leaf {
     -webkit-mask-image: linear-gradient(
         to top,
         transparent 50%,
-        var(--stem-dark) 80%
+        #2d8645 80%
     ) !important;
     mask-image: linear-gradient(
         to top,
         transparent 50%,
-        var(--stem-dark) 80%
+        #2d8645 80%
     ) !important;
 }
 
 .long-g--5 {
-    left: 54%;
-    bottom: 0;
-    transform: scale(0.7) rotate(0deg); /* Giảm từ 0.8 xuống 0.7 */
+    left: 42vmin;
+    bottom: 0vmin;
+    transform: scale(0.8) rotate(2deg);
 }
 
 .long-g--6 {
-    left: 58%;
-    bottom: 0;
+    left: 0vmin;
+    bottom: -20vmin;
     z-index: 100;
     filter: blur(0.3vmin);
-    transform: scale(0.7) rotate(0deg); /* Giảm từ 0.8 xuống 0.7 */
+    transform: scale(0.8) rotate(2deg);
 }
 
 .long-g--7 {
-    left: 62%;
-    bottom: 0;
+    left: 35vmin;
+    bottom: 20vmin;
     z-index: -1;
     filter: blur(0.3vmin);
-    transform: scale(0.5) rotate(0deg); /* Giảm từ 0.6 xuống 0.5 */
+    transform: scale(0.6) rotate(2deg);
     opacity: 0.7;
 }
 
 .long-g .leaf {
-    --w: 2.5vmin; /* Giảm từ 3vmin xuống 2.5vmin */
-    --h: 12vmin; /* Giảm từ 15vmin xuống 12vmin */
-    --c: var(--stem-light);
+    --w: 15vmin;
+    --h: 40vmin;
+    --c: #4caf50;
     position: absolute;
     bottom: 0;
     width: var(--w);
     height: var(--h);
     border-top-left-radius: 100%;
-    border-left: 0.8vmin solid var(--c); /* Giảm từ 1vmin xuống 0.8vmin */
-    -webkit-mask-image: linear-gradient(
-        to top,
-        transparent 20%,
-        var(--dark-color)
-    );
-    mask-image: linear-gradient(to top, transparent 20%, var(--dark-color));
+    border-left: 2vmin solid var(--c);
+    -webkit-mask-image: linear-gradient(to top, transparent 20%, #000);
+    mask-image: linear-gradient(to top, transparent 20%, #000);
     transform-origin: bottom center;
 }
 
 .long-g .leaf--0 {
-    left: 0.8vmin; /* Giảm từ 1vmin xuống 0.8vmin */
+    left: 2vmin;
     animation: leaf-ans-1 4s linear infinite;
 }
 
 .long-g .leaf--1 {
-    --w: 2.5vmin; /* Giảm từ 3vmin xuống 2.5vmin */
-    --h: 12vmin; /* Giảm từ 15vmin xuống 12vmin */
+    --w: 5vmin;
+    --h: 60vmin;
     animation: leaf-ans-1 4s linear infinite;
 }
 
 .long-g .leaf--2 {
-    --w: 2.5vmin; /* Giảm từ 3vmin xuống 2.5vmin */
-    --h: 8vmin; /* Giảm từ 10vmin xuống 8vmin */
-    left: -0.4vmin; /* Giảm từ -0.5vmin xuống -0.4vmin */
-    bottom: 1.5vmin; /* Giảm từ 2vmin xuống 1.5vmin */
+    --w: 10vmin;
+    --h: 40vmin;
+    left: -0.5vmin;
+    bottom: 5vmin;
     transform-origin: bottom left;
     transform: rotateY(-180deg);
     animation: leaf-ans-2 3s linear infinite;
 }
 
 .long-g .leaf--3 {
-    --w: 2.5vmin; /* Giảm từ 3vmin xuống 2.5vmin */
-    --h: 6vmin; /* Giảm từ 8vmin xuống 6vmin */
-    left: -0.8vmin; /* Giảm từ -1vmin xuống -0.8vmin */
-    bottom: 0.8vmin; /* Giảm từ 1vmin xuống 0.8vmin */
+    --w: 5vmin;
+    --h: 30vmin;
+    left: -1vmin;
+    bottom: 3.2vmin;
     transform-origin: bottom left;
     transform: rotate(-10deg) rotateY(-180deg);
     animation: leaf-ans-3 3s linear infinite;
 }
 
-/* Utility classes */
+/* Tiện ích */
 .grow-ans {
     animation: grow-ans 2s var(--d) backwards;
 }
@@ -1062,7 +1030,7 @@
     animation-play-state: paused !important;
 }
 
-/* Key Frames - Giữ nguyên */
+/* === KEYFRAMES === */
 @keyframes growing-grass-ans--1 {
     0% {
         transform-origin: bottom left;
@@ -1122,20 +1090,20 @@
 @keyframes flower-g-long-ans {
     0%,
     100% {
-        transform: rotate(0deg);
+        transform: rotate(-30deg) rotateY(-20deg);
     }
     50% {
-        transform: rotate(2deg);
+        transform: rotate(-32deg) rotateY(-20deg);
     }
 }
 
 @keyframes flower-g-right-ans {
     0%,
     100% {
-        transform: rotate(0deg);
+        transform: rotate(20deg);
     }
     50% {
-        transform: rotate(2deg) rotateX(-20deg);
+        transform: rotate(24deg) rotateX(-20deg);
     }
 }
 
@@ -1145,17 +1113,17 @@
         transform: rotateY(-180deg) rotate(0deg) rotateX(-20deg);
     }
     50% {
-        transform: rotateY(-180deg) rotate(2deg) rotateX(-20deg);
+        transform: rotateY(-180deg) rotate(6deg) rotateX(-20deg);
     }
 }
 
 @keyframes flower__g-front-ans {
     0%,
     100% {
-        transform: rotate(0deg) scale(0.9);
+        transform: rotate(-28deg) rotateY(30deg) scale(1.04);
     }
     50% {
-        transform: rotate(2deg) scale(0.9);
+        transform: rotate(-35deg) rotateY(40deg) scale(1.04);
     }
 }
 
@@ -1180,10 +1148,10 @@
 @keyframes flower__g-fr-ans {
     0%,
     100% {
-        transform: rotate(0deg);
+        transform: rotate(2deg);
     }
     50% {
-        transform: rotate(2deg);
+        transform: rotate(4deg);
     }
 }
 
@@ -1265,22 +1233,22 @@
         transform: translateY(0vmin);
     }
     25% {
-        opacity: 0.9;
-        transform: translateY(-5vmin) translateX(-1.5vmin); /* Giảm từ -6vmin, -2vmin */
+        opacity: 1;
+        transform: translateY(-5vmin) translateX(-2vmin);
     }
     50% {
-        opacity: 0.9;
-        transform: translateY(-12vmin) translateX(1.5vmin); /* Giảm từ -16vmin, 2vmin */
+        opacity: 1;
+        transform: translateY(-15vmin) translateX(2vmin);
         filter: blur(0.2vmin);
     }
     75% {
-        transform: translateY(-18vmin) translateX(-1.5vmin); /* Giảm từ -22vmin, -2vmin */
+        transform: translateY(-20vmin) translateX(-2vmin);
         filter: blur(0.2vmin);
     }
     100% {
-        transform: translateY(-24vmin); /* Giảm từ -32vmin */
+        transform: translateY(-30vmin);
         opacity: 0;
-        filter: blur(1vmin); /* Giảm từ 1.2vmin */
+        filter: blur(1vmin);
     }
 }
 
@@ -1297,20 +1265,20 @@
 @keyframes moving-flower-2 {
     0%,
     100% {
-        transform: rotate(0deg);
+        transform: rotate(18deg);
     }
     50% {
-        transform: rotate(-1deg);
+        transform: rotate(14deg);
     }
 }
 
 @keyframes moving-flower-3 {
     0%,
     100% {
-        transform: rotate(0deg);
+        transform: rotate(-18deg);
     }
     50% {
-        transform: rotate(1deg);
+        transform: rotate(-20deg) rotateY(-10deg);
     }
 }
 
@@ -1344,20 +1312,20 @@
 @keyframes moving-grass {
     0%,
     100% {
-        transform: rotate(0deg);
+        transform: rotate(-48deg) rotateY(40deg);
     }
     50% {
-        transform: rotate(2deg);
+        transform: rotate(-50deg) rotateY(40deg);
     }
 }
 
 @keyframes moving-grass--2 {
     0%,
     100% {
-        transform: scale(0.8) rotate(0deg);
+        transform: scale(0.5) rotate(75deg) rotateX(10deg) rotateY(-200deg);
     }
     50% {
-        transform: scale(0.8) rotate(2deg);
+        transform: scale(0.5) rotate(79deg) rotateX(10deg) rotateY(-200deg);
     }
 }
 
@@ -1365,21 +1333,4 @@
     0% {
         transform: scale(0);
     }
-}
-
-/* Chỉnh sửa cho trang 4 */
-.page-4 .bouquet-container {
-    padding: 0;
-    margin: 20px auto 30px;
-    height: 300px;
-    width: 100%;
-    max-width: 600px;
-    background: transparent;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-/* Ẩn bouquet cũ */
-.page-4 .bouquet {
-    display: none;
 }

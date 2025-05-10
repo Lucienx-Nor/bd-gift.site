@@ -1,0 +1,249 @@
+/* Estilos optimizados para pháo hoa */
+
+/* Canvas y contenedor principal */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform; /* Optimización de rendimiento */
+}
+
+p {
+    margin: 0 0;
+    position: absolute;
+    font: 16px Verdana;
+    color: #eee;
+    height: 25px;
+    top: calc(100vh - 30px);
+    text-shadow: 0 0 2px white;
+}
+
+p a {
+    text-decoration: none;
+    color: #aaa;
+}
+
+span {
+    font-size: 11px;
+}
+
+p > a:first-of-type {
+    font-size: 20px;
+}
+
+body {
+    overflow: hidden;
+}
+
+/* Contenedor de fuegos artificiales mejorado */
+.fireworks-container {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    margin: 2rem auto;
+    overflow: hidden;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), inset 0 0 40px rgba(0, 0, 0, 0.4);
+    transform: translateZ(0); /* Activar aceleración de hardware */
+}
+
+/* Mejoras visuales para la versión enhanced */
+.fireworks-container.enhanced {
+    height: 500px; /* Contenedor más alto para un mejor efecto visual */
+    background: linear-gradient(
+        to bottom,
+        #0c1a2d 0%,
+        #05080f 100%
+    ); /* Fondo nocturno más realista */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Fondo de cielo nocturno con estrellas */
+.nightsky-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(
+            1px 1px at 50px 50px,
+            #fff,
+            rgba(0, 0, 0, 0)
+        ),
+        radial-gradient(1px 1px at 100px 150px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(1px 1px at 150px 50px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(1px 1px at 200px 100px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(1px 1px at 250px 50px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(1px 1px at 300px 200px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 350px 150px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 400px 100px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(1px 1px at 450px 50px, #fff, rgba(0, 0, 0, 0));
+    background-size: 500px 500px;
+    z-index: 1;
+    opacity: 0.6;
+    pointer-events: none;
+    animation: twinkling 20s linear infinite;
+}
+
+/* Silueta de ciudad para añadir profundidad */
+.city-silhouette {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px; /* Altura de la silueta */
+    background-image: 
+        /* Edificios del centro de la ciudad */ linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 30%,
+            #0a0e17 30%,
+            #0a0e17 100%
+        ),
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 40%,
+            #0c1016 40%,
+            #0c1016 100%
+        ),
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 45%,
+            #0a0e17 45%,
+            #0a0e17 100%
+        ),
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 50%,
+            #0c1016 50%,
+            #0c1016 100%
+        ),
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 55%,
+            #0a0e17 55%,
+            #0a0e17 100%
+        );
+    background-size: 100% 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Canvas para fuegos artificiales optimizado */
+.fireworks-canvas {
+    z-index: 2;
+    image-rendering: optimizeSpeed; /* Optimización de rendimiento */
+}
+
+/* Efecto de reflejo en agua mejorado */
+.water-reflection.enhanced {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0),
+        rgba(40, 70, 120, 0.15)
+    );
+    transform: scaleY(-1);
+    opacity: 0.3;
+    filter: blur(1px);
+    pointer-events: none;
+    mix-blend-mode: screen;
+    z-index: 4;
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0)
+    );
+}
+
+/* Controles de fuegos artificiales mejorados */
+.firework-controls {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* Botón de fuegos artificiales mejorado */
+.firework-button.enhanced {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #ff5252, #880000);
+    border: none;
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: 1rem auto;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(214, 126, 126, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4),
+        0 0 20px rgba(255, 82, 82, 0.3);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.firework-button.enhanced::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: all 0.6s ease;
+}
+
+.firework-button.enhanced:hover {
+    background: linear-gradient(135deg, #990000, #ff6b6b);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(214, 126, 126, 0.6),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4),
+        0 0 30px rgba(255, 82, 82, 0.5);
+}
+
+.firework-button.enhanced:hover::before {
+    left: 100%;
+}
+
+.firework-button.enhanced:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(214, 126, 126, 0.4);
+}
+
+/* Mensaje informativo */
+.firework-message {
+    color: #999;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Animaciones */
+@keyframes twinkling {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 500px 500px;
+    }
+}
