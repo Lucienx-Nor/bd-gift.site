@@ -1,5 +1,5 @@
 /**
- * Hiệu ứng hoa bay ngang - tối ưu nhưng vẫn đẹp
+ * Hiệu ứng hoa bay ngang - đã tối ưu đặc biệt cho di động
  */
 
 /* Container chứa hoa bay */
@@ -23,9 +23,11 @@
     opacity: 0;
     will-change: transform, opacity; /* Tối ưu GPU */
     transform: translateZ(0); /* Kích hoạt GPU acceleration */
+    backface-visibility: hidden; /* Ngăn flickering trên di động */
+    -webkit-backface-visibility: hidden; /* Cho Safari */
 }
 
-/* Các loại hoa khác nhau - giữ đủ 6 loại */
+/* Các loại hoa - SVG đơn giản hóa */
 .horizontal-flower.type-1 {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10C58 25 75 35 90 40C75 45 58 55 50 70C42 55 25 45 10 40C25 35 42 25 50 10Z" fill="%23f8a5c2" /></svg>');
 }
@@ -35,18 +37,10 @@
 }
 
 .horizontal-flower.type-3 {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 20C60 30 75 30 85 20C75 40 75 55 85 70C60 55 40 55 15 70C25 55 25 40 15 20C25 30 40 30 50 20Z" fill="%23d67e7e" /></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="15" fill="%23ffb6c1"/><circle cx="50" cy="50" r="8" fill="%23ffd700"/></svg>');
 }
 
 .horizontal-flower.type-4 {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="15" fill="%23ffb6c1"/><path d="M50 20C54 35 65 45 80 50C65 55 54 65 50 80C46 65 35 55 20 50C35 45 46 35 50 20Z" fill="%23ffb6c1" opacity="0.7"/><circle cx="50" cy="50" r="8" fill="%23ffd700"/></svg>');
-}
-
-.horizontal-flower.type-5 {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="12" fill="%23ffd700"/><path d="M35 35L25 25M65 35L75 25M35 65L25 75M65 65L75 75M50 30L50 15M70 50L85 50M50 70L50 85M30 50L15 50" stroke="%23ffa07a" stroke-width="4"/></svg>');
-}
-
-.horizontal-flower.type-6 {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M30 50C30 30 50 30 50 30C50 30 70 30 70 50C70 70 50 80 50 80C50 80 30 70 30 50Z" fill="%23ff77a9"/><circle cx="50" cy="45" r="8" fill="%23ffec8b"/></svg>');
 }
 
@@ -67,138 +61,98 @@
 }
 
 .horizontal-flower.size-4 {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
 }
 
-.horizontal-flower.size-5 {
-    width: 55px;
-    height: 55px;
+/* Sử dụng các animation được định nghĩa trước */
+.anim-simple {
+    animation: fly-simple 8s linear forwards;
 }
 
-/* Animation classes được định nghĩa trước */
-.fly-normal {
-    animation: fly-horizontal-flower 8s linear forwards;
+.anim-wave {
+    animation: fly-wave 9s linear forwards;
 }
 
-.fly-zigzag {
-    animation: fly-horizontal-zigzag 8s linear forwards;
+.anim-zigzag {
+    animation: fly-zigzag 10s linear forwards;
 }
 
-.fly-wave {
-    animation: fly-horizontal-wave 9s ease-in-out forwards;
-}
-
-/* Hiệu ứng ánh sáng */
-.with-glow {
-    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.7));
-}
-
-/* Animation chính cho hoa bay */
-@keyframes fly-horizontal-flower {
+/* Animation đơn giản nhất - ít keyframes */
+@keyframes fly-simple {
     0% {
         left: -50px;
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(0);
         opacity: 0;
     }
     10% {
         opacity: 0.8;
-        transform: translateY(var(--wave-y-start, 0))
-            rotate(var(--rotation-start, 0deg));
-    }
-    50% {
-        transform: translateY(var(--wave-y-mid, 20px))
-            rotate(var(--rotation-mid, 180deg));
     }
     90% {
         opacity: 0.8;
     }
     100% {
         left: 120%;
-        transform: translateY(var(--wave-y, 0)) rotate(var(--rotation, 360deg));
+        transform: translateY(var(--end-y, 0));
         opacity: 0;
     }
 }
 
-/* Animation zigzag */
-@keyframes fly-horizontal-zigzag {
+/* Animation sóng nhẹ */
+@keyframes fly-wave {
     0% {
         left: -50px;
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(0);
         opacity: 0;
     }
     10% {
         opacity: 0.8;
-        transform: translateY(var(--zig1, 20px)) rotate(var(--rot1, 30deg));
-    }
-    30% {
-        transform: translateY(var(--zag1, -20px)) rotate(var(--rot2, 60deg));
     }
     50% {
-        transform: translateY(var(--zig2, 20px)) rotate(var(--rot3, 180deg));
-    }
-    70% {
-        transform: translateY(var(--zag2, -20px)) rotate(var(--rot4, 270deg));
+        transform: translateY(var(--wave-height, 20px));
     }
     90% {
         opacity: 0.8;
     }
     100% {
         left: 120%;
-        transform: translateY(var(--zig3, 0)) rotate(var(--rot5, 360deg));
+        transform: translateY(0);
         opacity: 0;
     }
 }
 
-/* Animation sóng nhẹ nhàng */
-@keyframes fly-horizontal-wave {
+/* Animation zigzag đơn giản hóa */
+@keyframes fly-zigzag {
     0% {
         left: -50px;
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(0);
         opacity: 0;
     }
     10% {
         opacity: 0.8;
     }
-    25% {
-        transform: translateY(20px) rotate(90deg);
+    33% {
+        transform: translateY(var(--zig, 20px));
     }
-    50% {
-        transform: translateY(-20px) rotate(180deg);
-    }
-    75% {
-        transform: translateY(20px) rotate(270deg);
+    66% {
+        transform: translateY(var(--zag, -20px));
     }
     90% {
         opacity: 0.8;
     }
     100% {
         left: 120%;
-        transform: translateY(0) rotate(360deg);
+        transform: translateY(0);
         opacity: 0;
     }
 }
 
-/* Các hiệu ứng phụ - định nghĩa thành class */
-.floating {
-    animation: floating 3s ease-in-out infinite;
+/* Hiệu ứng xoay nhẹ */
+.rotate-slow {
+    animation: rotate-slow 6s linear infinite;
 }
 
-@keyframes floating {
-    0%,
-    100% {
-        margin-top: 0;
-    }
-    50% {
-        margin-top: -10px;
-    }
-}
-
-.spinning {
-    animation: spinning 4s linear infinite;
-}
-
-@keyframes spinning {
+@keyframes rotate-slow {
     0% {
         transform: rotate(0deg);
     }
@@ -207,29 +161,47 @@
     }
 }
 
-.pulsing {
-    animation: pulsing 2s ease-in-out infinite;
+/* Hiệu ứng lên xuống nhẹ */
+.float-simple {
+    animation: float-simple 3s ease-in-out infinite;
 }
 
-@keyframes pulsing {
+@keyframes float-simple {
     0%,
     100% {
-        transform: scale(1);
+        margin-top: 0;
     }
     50% {
-        transform: scale(1.2);
+        margin-top: -5px;
     }
 }
 
-.butterfly {
-    animation: butterfly-wings 0.8s ease-in-out infinite alternate;
-}
-
-@keyframes butterfly-wings {
-    0% {
-        transform: scaleX(1);
+/* Phát hiện thiết bị di động và điều chỉnh hiệu ứng */
+@media (max-width: 768px) {
+    .horizontal-flower {
+        /* Áp dụng animation với hardware acceleration trên di động */
+        transform: translate3d(0, 0, 0);
     }
-    100% {
-        transform: scaleX(0.8);
+
+    /* Đơn giản hóa animation trên di động */
+    @keyframes fly-zigzag {
+        0% {
+            left: -50px;
+            transform: translateY(0);
+            opacity: 0;
+        }
+        10% {
+            opacity: 0.8;
+        }
+        50% {
+            transform: translateY(var(--zig, 20px));
+        }
+        90% {
+            opacity: 0.8;
+        }
+        100% {
+            left: 120%;
+            opacity: 0;
+        }
     }
 }
