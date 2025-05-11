@@ -1,22 +1,27 @@
 /**
- * Hiệu ứng hoa bay ngang từ trái sang phải - phiên bản nâng cấp
+ * Hiệu ứng hoa bay ngang - tối ưu nhưng vẫn đẹp
  */
 
+// Biến toàn cục
 let horizontalFlowersInterval;
 let horizontalFlowersContainer;
 let isHorizontalFlowersActive = false;
+let flowerCount = 0;
+const MAX_FLOWERS = 60; // Số lượng hoa tối đa (tăng từ 50 lên 60 để vẫn đẹp)
+const FLOWER_TYPES = 6; // Giữ đủ 6 loại hoa
+const FLOWER_SIZES = 5; // Giữ đủ 5 kích thước
+const ANIMATION_CLASSES = ["fly-normal", "fly-zigzag", "fly-wave"]; // Lớp animation
+const EFFECT_CLASSES = ["floating", "spinning", "pulsing", "butterfly"]; // Hiệu ứng phụ
 
+// Tạo container chứa hoa bay
 function createHorizontalFlowersContainer() {
-    // Kiểm tra xem container đã tồn tại chưa
     if (!document.getElementById("horizontal-flowers")) {
         horizontalFlowersContainer = document.createElement("div");
         horizontalFlowersContainer.id = "horizontal-flowers";
         horizontalFlowersContainer.className = "horizontal-flowers-container";
 
-        // Thêm vào trang 4
         const page4 = document.getElementById("page-4");
         if (page4) {
-            // Đảm bảo page4 có position relative nếu chưa có
             const pageStyle = window.getComputedStyle(page4);
             if (pageStyle.position === "static") {
                 page4.style.position = "relative";
@@ -31,8 +36,13 @@ function createHorizontalFlowersContainer() {
     return horizontalFlowersContainer;
 }
 
+// Tạo một bông hoa
 function createHorizontalFlower() {
-    // Lấy hoặc tạo container
+    // Kiểm tra số lượng tối đa
+    if (flowerCount >= MAX_FLOWERS) {
+        return;
+    }
+
     const container =
         horizontalFlowersContainer || createHorizontalFlowersContainer();
 
@@ -40,130 +50,157 @@ function createHorizontalFlower() {
     const flower = document.createElement("div");
     flower.className = "horizontal-flower";
 
-    // Loại hoa ngẫu nhiên (1-6, tăng từ 3 loại lên 6 loại)
-    const typeClass = `type-${Math.floor(Math.random() * 6) + 1}`;
-    flower.classList.add(typeClass);
+    // Chọn kiểu và kích thước ngẫu nhiên
+    const typeIndex = Math.floor(Math.random() * FLOWER_TYPES) + 1;
+    const sizeIndex = Math.floor(Math.random() * FLOWER_SIZES) + 1;
 
-    // Kích thước ngẫu nhiên (1-5, thêm kích thước 5)
-    const sizeClass = `size-${Math.floor(Math.random() * 5) + 1}`;
-    flower.classList.add(sizeClass);
+    flower.classList.add(`type-${typeIndex}`);
+    flower.classList.add(`size-${sizeIndex}`);
 
-    // Vị trí dọc ngẫu nhiên (5%-95% chiều cao container, tăng phạm vi)
-    const topPosition = 5 + Math.random() * 90;
-    flower.style.top = `${topPosition}%`;
+    // Vị trí dọc ngẫu nhiên
+    flower.style.top = `${5 + Math.random() * 90}%`;
 
-    // Tham số chuyển động ngẫu nhiên với nhiều điểm hơn
-    const waveYStart = Math.random() * 40 - 20 + "px"; // -20px đến +20px
-    const waveYMid = Math.random() * 80 - 40 + "px"; // -40px đến +40px
-    const waveYEnd = Math.random() * 100 - 50 + "px"; // -50px đến +50px
+    // Chọn kiểu animation
+    const animIndex = Math.floor(Math.random() * ANIMATION_CLASSES.length);
+    const animClass = ANIMATION_CLASSES[animIndex];
+    flower.classList.add(animClass);
 
-    const rotationStart = Math.random() * 90 + "deg"; // 0-90 độ xoay ban đầu
-    const rotationMid = Math.random() * 180 + 90 + "deg"; // 90-270 độ xoay giữa
-    const rotationEnd = Math.random() * 360 + "deg"; // 0-360 độ xoay cuối
+    // Thêm tham số tùy chỉnh dựa vào kiểu animation
+    if (animClass === "fly-normal") {
+        // Cho đường bay tiêu chuẩn
+        const waveYStart = Math.random() * 30 - 15 + "px";
+        const waveYMid = Math.random() * 60 - 30 + "px";
+        const waveYEnd = Math.random() * 60 - 30 + "px";
 
-    flower.style.setProperty("--wave-y-start", waveYStart);
-    flower.style.setProperty("--wave-y-mid", waveYMid);
-    flower.style.setProperty("--wave-y", waveYEnd);
+        const rotStart = Math.random() * 90 + "deg";
+        const rotMid = Math.random() * 180 + 90 + "deg";
+        const rotEnd = Math.random() * 360 + "deg";
 
-    flower.style.setProperty("--rotation-start", rotationStart);
-    flower.style.setProperty("--rotation-mid", rotationMid);
-    flower.style.setProperty("--rotation", rotationEnd);
+        flower.style.setProperty("--wave-y-start", waveYStart);
+        flower.style.setProperty("--wave-y-mid", waveYMid);
+        flower.style.setProperty("--wave-y", waveYEnd);
 
-    // Xác định kiểu animation (thêm nhiều kiểu)
-    const animationType = Math.random();
-
-    if (animationType < 0.2) {
-        // ZigZag pattern (20% cơ hội)
-        flower.classList.add("zigzag");
-
-        // Tham số zigzag
-        const zig1 = Math.random() * 60 - 30 + "px";
-        const zag1 = Math.random() * 60 - 30 + "px";
-        const zig2 = Math.random() * 60 - 30 + "px";
-        const zag2 = Math.random() * 60 - 30 + "px";
-        const zig3 = Math.random() * 60 - 30 + "px";
-        const zag3 = Math.random() * 60 - 30 + "px";
+        flower.style.setProperty("--rotation-start", rotStart);
+        flower.style.setProperty("--rotation-mid", rotMid);
+        flower.style.setProperty("--rotation", rotEnd);
+    } else if (animClass === "fly-zigzag") {
+        // Cho đường bay zích zắc
+        const zig1 = Math.random() * 40 - 20 + "px";
+        const zag1 = Math.random() * 40 - 20 + "px";
+        const zig2 = Math.random() * 40 - 20 + "px";
+        const zag2 = Math.random() * 40 - 20 + "px";
+        const zig3 = Math.random() * 40 - 20 + "px";
 
         flower.style.setProperty("--zig1", zig1);
         flower.style.setProperty("--zag1", zag1);
         flower.style.setProperty("--zig2", zig2);
         flower.style.setProperty("--zag2", zag2);
         flower.style.setProperty("--zig3", zig3);
-        flower.style.setProperty("--zag3", zag3);
-    } else if (animationType < 0.4) {
-        // Thêm hiệu ứng phát sáng (20% cơ hội)
+
+        // Góc xoay cho zigzag
+        flower.style.setProperty("--rot1", `${Math.random() * 45}deg`);
+        flower.style.setProperty("--rot2", `${Math.random() * 45 + 45}deg`);
+        flower.style.setProperty("--rot3", `${Math.random() * 90 + 135}deg`);
+        flower.style.setProperty("--rot4", `${Math.random() * 90 + 225}deg`);
+        flower.style.setProperty("--rot5", `${Math.random() * 45 + 315}deg`);
+    }
+
+    // Thêm hiệu ứng ánh sáng cho 20% hoa
+    if (Math.random() < 0.2) {
         flower.classList.add("with-glow");
-    } else {
-        // Hiệu ứng bay tiêu chuẩn (60% cơ hội)
     }
 
-    // Thêm hiệu ứng phụ
-    const secondaryEffect = Math.random();
-
-    if (secondaryEffect < 0.25) {
-        // Hiệu ứng nổi (25% cơ hội)
-        flower.classList.add("floating-effect");
-        // Tham số nổi ngẫu nhiên
-        const floatDist = Math.random() * 30 - 15 + "px"; // -15px đến +15px khoảng cách nổi
-        const floatRot = Math.random() * 20 - 10 + "deg"; // -10deg đến +10deg xoay
-        flower.style.setProperty("--float-dist", floatDist);
-        flower.style.setProperty("--float-rot", floatRot);
-    } else if (secondaryEffect < 0.5) {
-        // Hiệu ứng xoay tròn (25% cơ hội)
-        flower.classList.add("spinning-effect");
-    } else if (secondaryEffect < 0.75) {
-        // Hiệu ứng phóng to thu nhỏ (25% cơ hội)
-        flower.classList.add("pulsing-effect");
-    } else {
-        // Hiệu ứng cánh bướm (25% cơ hội)
-        flower.classList.add("butterfly-effect");
+    // Thêm hiệu ứng phụ khác cho 50% hoa còn lại
+    if (Math.random() < 0.5) {
+        const effectIndex = Math.floor(Math.random() * EFFECT_CLASSES.length);
+        flower.classList.add(EFFECT_CLASSES[effectIndex]);
     }
 
-    // Thời gian animation ngẫu nhiên (5-12s, tăng thời gian tối đa)
-    const duration = 5 + Math.random() * 7;
+    // Thời gian animation ngẫu nhiên nhưng giới hạn
+    const duration = 7 + Math.random() * 5; // 7-12s
     flower.style.animationDuration = `${duration}s`;
 
-    // Thêm vào container
+    // Thêm vào container và tăng biến đếm
     container.appendChild(flower);
+    flowerCount++;
 
     // Xóa hoa sau khi animation kết thúc
     setTimeout(() => {
         if (flower && flower.parentNode) {
             flower.parentNode.removeChild(flower);
+            flowerCount--; // Giảm biến đếm khi xóa
         }
     }, duration * 1000);
 }
 
+// Sử dụng requestAnimationFrame để tối ưu timing
+let lastFlowerTime = 0;
+const FLOWER_INTERVAL = 250; // 250ms giữa mỗi lần tạo hoa (tối ưu hơn)
+
+function animationLoop(timestamp) {
+    if (!isHorizontalFlowersActive) return;
+
+    // Chỉ tạo hoa sau mỗi khoảng thời gian
+    if (timestamp - lastFlowerTime > FLOWER_INTERVAL) {
+        createHorizontalFlower();
+        lastFlowerTime = timestamp;
+    }
+
+    requestAnimationFrame(animationLoop);
+}
+
+// Bắt đầu hiệu ứng hoa bay
 function startHorizontalFlowers() {
     if (!isHorizontalFlowersActive) {
         isHorizontalFlowersActive = true;
+        flowerCount = 0; // Reset biến đếm
 
         // Tạo container nếu chưa tồn tại
         createHorizontalFlowersContainer();
 
-        // Tạo lô hoa ban đầu nhiều hơn (25 hoa thay vì 15)
-        for (let i = 0; i < 25; i++) {
+        // Tạo lô hoa ban đầu với số lượng vừa phải
+        for (let i = 0; i < 15; i++) {
             setTimeout(() => {
-                createHorizontalFlower();
-            }, i * 150); // Giảm thời gian chờ giữa mỗi lần tạo
+                if (isHorizontalFlowersActive) {
+                    createHorizontalFlower();
+                }
+            }, i * 150);
         }
 
-        // Tạo hoa định kỳ thường xuyên hơn
-        horizontalFlowersInterval = setInterval(createHorizontalFlower, 200); // 200ms thay vì 300ms
+        // Sử dụng requestAnimationFrame thay vì setInterval
+        lastFlowerTime = performance.now();
+        requestAnimationFrame(animationLoop);
     }
 }
 
+// Tạo hiệu ứng bùng nổ hoa
+function createFlowerBurst() {
+    if (!isHorizontalFlowersActive) return;
+
+    // Số lượng hoa trong bùng nổ (tối ưu hơn)
+    const burstCount = Math.min(10, MAX_FLOWERS - flowerCount);
+
+    for (let i = 0; i < burstCount; i++) {
+        setTimeout(() => {
+            if (isHorizontalFlowersActive) {
+                createHorizontalFlower();
+            }
+        }, i * 80);
+    }
+}
+
+// Dừng hiệu ứng hoa bay
 function stopHorizontalFlowers() {
     if (isHorizontalFlowersActive) {
         isHorizontalFlowersActive = false;
-
-        // Xóa interval
-        clearInterval(horizontalFlowersInterval);
 
         // Xóa hết hoa trong container
         if (horizontalFlowersContainer) {
             horizontalFlowersContainer.innerHTML = "";
         }
+
+        // Reset biến đếm
+        flowerCount = 0;
     }
 }
 
@@ -178,24 +215,18 @@ document.addEventListener("DOMContentLoaded", function () {
         // Bắt đầu hiệu ứng hoa bay ngang
         startHorizontalFlowers();
 
-        // Đặt lịch tạo burst hiệu ứng ngẫu nhiên
-        setTimeout(createFlowerBurst, 2000);
-        setTimeout(createFlowerBurst, 5000);
-        setTimeout(createFlowerBurst, 8000);
-    }
-
-    // Tạo hiệu ứng bùng nổ hoa
-    function createFlowerBurst() {
-        if (isHorizontalFlowersActive) {
-            // Tạo một loạt hoa cùng lúc
-            for (let i = 0; i < 15; i++) {
-                setTimeout(createHorizontalFlower, i * 50);
+        // Lên lịch tạo bùng nổ ngẫu nhiên theo thời gian
+        setTimeout(() => {
+            if (isHorizontalFlowersActive) {
+                createFlowerBurst();
+                // Lập lịch bùng nổ tiếp theo, nhưng chỉ nếu hiệu ứng vẫn đang chạy
+                setTimeout(() => {
+                    if (isHorizontalFlowersActive) {
+                        createFlowerBurst();
+                    }
+                }, 4000 + Math.random() * 2000);
             }
-
-            // Lên lịch bùng nổ tiếp theo
-            const nextBurst = 3000 + Math.random() * 5000; // 3-8 giây
-            setTimeout(createFlowerBurst, nextBurst);
-        }
+        }, 3000);
     }
 
     // Thêm sự kiện click vào nút làm nở hoa
@@ -213,8 +244,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // Bắt đầu hiệu ứng hoa bay ngang
             startHorizontalFlowers();
 
-            // Thêm hiệu ứng bùng nổ khi click
-            setTimeout(createFlowerBurst, 300);
+            // Thêm bùng nổ khi click
+            setTimeout(createFlowerBurst, 500);
         };
     }
 
@@ -240,6 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
         (page4 && page4.classList.contains("active"));
 
     if (isPage4Active) {
+        // Chờ một chút để trang hiển thị đầy đủ
         setTimeout(startAllFlowerAnimations, 500);
     }
 });

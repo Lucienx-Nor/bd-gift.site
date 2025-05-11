@@ -1,5 +1,5 @@
 /**
- * Hiệu ứng hoa bay ngang - phiên bản nâng cấp
+ * Hiệu ứng hoa bay ngang - tối ưu nhưng vẫn đẹp
  */
 
 /* Container chứa hoa bay */
@@ -21,11 +21,11 @@
     background-repeat: no-repeat;
     background-size: contain;
     opacity: 0;
-    animation: fly-horizontal-flower 8s linear forwards;
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+    will-change: transform, opacity; /* Tối ưu GPU */
+    transform: translateZ(0); /* Kích hoạt GPU acceleration */
 }
 
-/* Các loại hoa khác nhau - thêm nhiều kiểu mới */
+/* Các loại hoa khác nhau - giữ đủ 6 loại */
 .horizontal-flower.type-1 {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10C58 25 75 35 90 40C75 45 58 55 50 70C42 55 25 45 10 40C25 35 42 25 50 10Z" fill="%23f8a5c2" /></svg>');
 }
@@ -38,7 +38,6 @@
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 20C60 30 75 30 85 20C75 40 75 55 85 70C60 55 40 55 15 70C25 55 25 40 15 20C25 30 40 30 50 20Z" fill="%23d67e7e" /></svg>');
 }
 
-/* Thêm loại hoa mới */
 .horizontal-flower.type-4 {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="15" fill="%23ffb6c1"/><path d="M50 20C54 35 65 45 80 50C65 55 54 65 50 80C46 65 35 55 20 50C35 45 46 35 50 20Z" fill="%23ffb6c1" opacity="0.7"/><circle cx="50" cy="50" r="8" fill="%23ffd700"/></svg>');
 }
@@ -77,57 +76,25 @@
     height: 55px;
 }
 
-/* Hiệu ứng ánh sáng cho một số hoa */
-.horizontal-flower.with-glow {
-    animation: fly-horizontal-flower 8s linear forwards,
-        flower-glow 2s infinite alternate;
+/* Animation classes được định nghĩa trước */
+.fly-normal {
+    animation: fly-horizontal-flower 8s linear forwards;
 }
 
-@keyframes flower-glow {
-    0% {
-        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
-    }
-    100% {
-        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
-    }
-}
-
-/* Đường bay zigzag */
-.horizontal-flower.zigzag {
+.fly-zigzag {
     animation: fly-horizontal-zigzag 8s linear forwards;
 }
 
-@keyframes fly-horizontal-zigzag {
-    0% {
-        left: -50px;
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.8;
-        transform: translateY(var(--zig1, 10px)) rotate(20deg);
-    }
-    30% {
-        transform: translateY(var(--zag1, -30px)) rotate(60deg);
-    }
-    50% {
-        transform: translateY(var(--zig2, 20px)) rotate(120deg);
-    }
-    70% {
-        transform: translateY(var(--zag2, -10px)) rotate(240deg);
-    }
-    90% {
-        opacity: 0.8;
-        transform: translateY(var(--zig3, 30px)) rotate(320deg);
-    }
-    100% {
-        left: 120%;
-        transform: translateY(var(--zag3, -20px)) rotate(360deg);
-        opacity: 0;
-    }
+.fly-wave {
+    animation: fly-horizontal-wave 9s ease-in-out forwards;
 }
 
-/* Animation chính cho hoa bay ngang cải tiến */
+/* Hiệu ứng ánh sáng */
+.with-glow {
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.7));
+}
+
+/* Animation chính cho hoa bay */
 @keyframes fly-horizontal-flower {
     0% {
         left: -50px;
@@ -153,25 +120,82 @@
     }
 }
 
-/* Hiệu ứng nổi lên xuống cải tiến */
-.floating-effect {
+/* Animation zigzag */
+@keyframes fly-horizontal-zigzag {
+    0% {
+        left: -50px;
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+        transform: translateY(var(--zig1, 20px)) rotate(var(--rot1, 30deg));
+    }
+    30% {
+        transform: translateY(var(--zag1, -20px)) rotate(var(--rot2, 60deg));
+    }
+    50% {
+        transform: translateY(var(--zig2, 20px)) rotate(var(--rot3, 180deg));
+    }
+    70% {
+        transform: translateY(var(--zag2, -20px)) rotate(var(--rot4, 270deg));
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        left: 120%;
+        transform: translateY(var(--zig3, 0)) rotate(var(--rot5, 360deg));
+        opacity: 0;
+    }
+}
+
+/* Animation sóng nhẹ nhàng */
+@keyframes fly-horizontal-wave {
+    0% {
+        left: -50px;
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    25% {
+        transform: translateY(20px) rotate(90deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+    }
+    75% {
+        transform: translateY(20px) rotate(270deg);
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        left: 120%;
+        transform: translateY(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Các hiệu ứng phụ - định nghĩa thành class */
+.floating {
     animation: floating 3s ease-in-out infinite;
 }
 
 @keyframes floating {
     0%,
     100% {
-        transform: translateY(0) rotate(0deg);
+        margin-top: 0;
     }
     50% {
-        transform: translateY(var(--float-dist, -15px))
-            rotate(var(--float-rot, 5deg));
+        margin-top: -10px;
     }
 }
 
-/* Hiệu ứng xoay tròn */
-.spinning-effect {
-    animation: spinning 2s linear infinite;
+.spinning {
+    animation: spinning 4s linear infinite;
 }
 
 @keyframes spinning {
@@ -183,8 +207,7 @@
     }
 }
 
-/* Hiệu ứng phóng to thu nhỏ */
-.pulsing-effect {
+.pulsing {
     animation: pulsing 2s ease-in-out infinite;
 }
 
@@ -198,8 +221,7 @@
     }
 }
 
-/* Thêm hiệu ứng cánh bướm cho một số hoa */
-.butterfly-effect {
+.butterfly {
     animation: butterfly-wings 0.8s ease-in-out infinite alternate;
 }
 
