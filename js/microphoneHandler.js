@@ -6,19 +6,21 @@
 let audioContext;
 let microphone;
 let analyser;
+let dataArray;
 let microphoneActive = false;
 let blowDetected = false;
 let blowTimeout;
+let microphoneStream; // Store the stream to properly close it later
 
 // DOM Elements
 let micButton;
 let micStatus;
 
 // Configuration for blow detection
-const BLOW_THRESHOLD = 130; // Adjust this value based on testing
-const BLOW_DURATION = 500; // Duration in ms required for a valid blow
-const FREQUENCY_RANGE = { min: 50, max: 500 }; // Frequency range for blow detection
-const SAMPLING_INTERVAL = 100; // How often to check the mic levels (ms)
+const BLOW_THRESHOLD = 130; // Giảm ngưỡng để dễ phát hiện hơn (điều chỉnh nếu cần)
+const BLOW_DURATION = 200; // Giảm thời gian xuống để phản hồi nhanh hơn
+const FREQUENCY_RANGE = { min: 50, max: 700 }; // Mở rộng dải tần số để phát hiện tốt hơn
+const SAMPLING_INTERVAL = 50; // Kiểm tra thường xuyên hơn
 
 /**
  * Initialize microphone functionality
@@ -36,7 +38,8 @@ export function initMicrophone(elements, onBlowDetected) {
 
     // Check if browser supports audio API
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        micStatus.textContent = "Microphone not supported by your browser";
+        micStatus.textContent =
+            "Microphone không được hỗ trợ bởi trình duyệt của bạn";
         micButton.disabled = true;
         return;
     }
@@ -49,6 +52,9 @@ export function initMicrophone(elements, onBlowDetected) {
             startMicrophone(onBlowDetected);
         }
     });
+
+    // Log initial state
+    console.log("Microphone handler initialized");
 }
 
 /**
@@ -57,10 +63,20 @@ export function initMicrophone(elements, onBlowDetected) {
  */
 async function startMicrophone(onBlowDetected) {
     try {
+        // Reset state
+        blowDetected = false;
+        if (blowTimeout) {
+            clearTimeout(blowTimeout);
+            blowTimeout = null;
+        }
+
         // Request microphone access
         const stream = await navigator.mediaDevices.getUserMedia({
             audio: true,
         });
+
+        // Store the stream for later cleanup
+        microphoneStream = stream;
 
         // Create audio context
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -73,13 +89,16 @@ async function startMicrophone(onBlowDetected) {
         // Configure analyzer
         analyser.fftSize = 1024;
         const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
+        dataArray = new Uint8Array(bufferLength);
 
         // Update UI
         microphoneActive = true;
         micButton.classList.add("active");
-        micStatus.textContent =
-            "Microphone active - blow to extinguish the candle!";
+        micButton.textContent = "Đang lắng nghe...";
+        micStatus.textContent = "Hãy thổi mạnh vào mic để tắt nến!";
+
+        // Debug info
+        console.log("Microphone started, listening for blowing...");
 
         // Start listening for blowing sounds
         const checkMicrophoneLevel = () => {
@@ -109,10 +128,14 @@ async function startMicrophone(onBlowDetected) {
 
             const average = count > 0 ? sum / count : 0;
 
+            // Debug sound level
+            // console.log("Sound level:", average);
+
             // Detect if blowing (sudden loud noise in the right frequency range)
             if (average > BLOW_THRESHOLD && !blowDetected) {
+                console.log("Potential blow detected! Level:", average);
                 blowDetected = true;
-                micStatus.textContent = "Blow detected!";
+                micStatus.textContent = "Đã phát hiện tiếng thổi!";
 
                 // Clear any existing timeout
                 if (blowTimeout) clearTimeout(blowTimeout);
@@ -120,23 +143,40 @@ async function startMicrophone(onBlowDetected) {
                 // If the loud sound continues for enough time, it's likely a blow
                 blowTimeout = setTimeout(() => {
                     if (blowDetected) {
-                        // Call the provided callback function
-                        onBlowDetected();
-                        micStatus.textContent =
-                            "Candle blown out successfully!";
+                        console.log("Confirmed blow! Extinguishing candle...");
 
-                        // Optional: Stop microphone after successful blow
-                        stopMicrophone();
+                        // Call the provided callback function
+                        if (
+                            onBlowDetected &&
+                            typeof onBlowDetected === "function"
+                        ) {
+                            onBlowDetected();
+                        } else {
+                            console.error("Invalid blow callback");
+                        }
+
+                        micStatus.textContent = "Đã thổi tắt nến thành công!";
+                        micButton.textContent = "Đã thổi tắt nến";
+                        micButton.disabled = true;
+
+                        // Stop microphone after successful blow
+                        setTimeout(() => {
+                            stopMicrophone();
+                        }, 1000);
                     }
                 }, BLOW_DURATION);
-            } else if (average <= BLOW_THRESHOLD && blowDetected) {
+            } else if (average <= BLOW_THRESHOLD * 0.7 && blowDetected) {
+                // Reset if sound level drops significantly
                 blowDetected = false;
                 if (blowTimeout) {
                     clearTimeout(blowTimeout);
                     blowTimeout = null;
                 }
-                micStatus.textContent = "Microphone active - blow harder!";
+                micStatus.textContent = "Thổi mạnh hơn để tắt nến!";
             }
+
+            // Display current level (optional, helpful for debugging)
+            // micStatus.textContent = `Âm lượng: ${Math.round(average)} | Ngưỡng: ${BLOW_THRESHOLD}`;
 
             // Continue checking if microphone is still active
             if (microphoneActive) {
@@ -149,7 +189,7 @@ async function startMicrophone(onBlowDetected) {
     } catch (error) {
         console.error("Error accessing microphone:", error);
         micStatus.textContent =
-            "Could not access microphone. Please check permissions.";
+            "Không thể truy cập microphone. Vui lòng kiểm tra quyền truy cập.";
         micButton.classList.remove("active");
         microphoneActive = false;
     }
@@ -159,22 +199,48 @@ async function startMicrophone(onBlowDetected) {
  * Stop microphone listening
  */
 function stopMicrophone() {
+    // Stop microphone stream
+    if (microphoneStream) {
+        microphoneStream.getTracks().forEach((track) => track.stop());
+        microphoneStream = null;
+    }
+
+    // Disconnect audio components
     if (microphone && audioContext) {
         microphone.disconnect();
-        audioContext.close();
         microphone = null;
+    }
+
+    if (audioContext) {
+        if (audioContext.state !== "closed") {
+            try {
+                audioContext.close();
+            } catch (e) {
+                console.error("Error closing audio context:", e);
+            }
+        }
         audioContext = null;
     }
 
+    // Reset state
     microphoneActive = false;
     blowDetected = false;
+
     if (blowTimeout) {
         clearTimeout(blowTimeout);
         blowTimeout = null;
     }
 
-    micButton.classList.remove("active");
-    micStatus.textContent = "Microphone inactive";
+    // Reset UI if button not disabled
+    if (micButton && !micButton.disabled) {
+        micButton.classList.remove("active");
+        micButton.textContent = "Thổi Nến Bằng Mic";
+        if (micStatus) {
+            micStatus.textContent = "Microphone chưa kích hoạt";
+        }
+    }
+
+    console.log("Microphone stopped");
 }
 
 /**
