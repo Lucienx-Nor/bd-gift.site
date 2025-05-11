@@ -1,5 +1,6 @@
 /**
  * PHẦN 7: HIỆU ỨNG TRANG BÓ HOA
+ * Cleaned version with shadows removed
  */
 
 /* Phần container cho bó hoa */
@@ -11,7 +12,7 @@
     margin: 20px 0;
     position: relative;
     overflow: hidden;
-    height: 380px; /* Increased height for more space */
+    height: 380px;
 }
 
 /* Nút làm nở hoa */
@@ -27,7 +28,7 @@
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 5px var(--shadow);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
 }
@@ -36,7 +37,7 @@
     background-color: var(--accent-color);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px var(--shadow);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .bouquet-button:active {
@@ -44,10 +45,10 @@
 }
 
 /* === PHẦN HOA TỰ ĐỘNG === */
-/* Container cho bó hoa ban đêm */
+/* Container cho bó hoa */
 .night-flowers {
     position: relative;
-    transform: scale(0.7); /* Reduced scale to make flowers smaller */
+    transform: scale(0.7);
     width: 100%;
     height: 150%;
     display: flex;
@@ -57,7 +58,34 @@
     perspective: 1000px;
 }
 
-/* Phần nền tối của bó hoa */
+/* Hiệu ứng cánh hoa bay */
+.floating-petal {
+    position: absolute;
+    width: 5vmin;
+    height: 5vmin;
+    border-radius: 50% 50% 0 50%;
+    background-color: #f8a5c2;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 100;
+    animation: floating-petal-animation 10s linear infinite;
+}
+
+@keyframes floating-petal-animation {
+    0% {
+        transform: translate(-10vw, 0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(110vw, -50vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Phần nền của bó hoa - removed dark background */
 .night {
     position: absolute;
     left: 50%;
@@ -66,26 +94,34 @@
     width: 100%;
     height: 100%;
     filter: blur(0.1vmin);
-    background-image: radial-gradient(ellipse at top, transparent 0%, #000),
-        radial-gradient(ellipse at bottom, #000, rgba(255, 220, 220, 0.2)),
+    background-image: radial-gradient(
+            ellipse at top,
+            transparent 0%,
+            transparent
+        ),
+        radial-gradient(
+            ellipse at bottom,
+            transparent,
+            rgba(255, 220, 220, 0.2)
+        ),
         repeating-linear-gradient(
             220deg,
-            rgb(0, 0, 0) 0px,
-            rgb(0, 0, 0) 19px,
+            transparent 0px,
+            transparent 19px,
             transparent 19px,
             transparent 22px
         ),
         repeating-linear-gradient(
             189deg,
-            rgb(0, 0, 0) 0px,
-            rgb(0, 0, 0) 19px,
+            transparent 0px,
+            transparent 19px,
             transparent 19px,
             transparent 22px
         ),
         repeating-linear-gradient(
             148deg,
-            rgb(0, 0, 0) 0px,
-            rgb(0, 0, 0) 19px,
+            transparent 0px,
+            transparent 19px,
             transparent 19px,
             transparent 22px
         ),
@@ -95,8 +131,8 @@
 /* Container hoa */
 .flowers {
     position: relative;
-    transform: scale(0.75); /* Further reduced scale for better fit */
-    margin-bottom: 20px; /* Added margin to push flowers up a bit from bottom */
+    transform: scale(0.75);
+    margin-bottom: 20px;
 }
 
 /* === PHẦN HOA === */
@@ -115,7 +151,7 @@
 }
 
 .flower--1 .flower__line {
-    height: 60vmin; /* Reduced height for better proportions */
+    height: 60vmin;
     animation-delay: 0.3s;
 }
 
@@ -151,7 +187,7 @@
 }
 
 .flower--2 .flower__line {
-    height: 50vmin; /* Reduced height for better proportions */
+    height: 50vmin;
     animation-delay: 0.6s;
 }
 
@@ -299,12 +335,12 @@
     width: 1.5vmin;
     background-image: linear-gradient(
             to left,
-            rgb(0, 0, 0, 0.2),
+            transparent,
             transparent,
             rgba(255, 255, 255, 0.2)
         ),
         linear-gradient(to top, transparent 10%, #2d8645, #4caf50);
-    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
     animation: grow-flower-tree 4s backwards;
 }
 
@@ -373,6 +409,33 @@
 
 .flower__light:nth-child(odd) {
     background-color: white;
+}
+
+/* Thêm bong bóng ánh sáng */
+.flower__bubble {
+    position: absolute;
+    width: 2vmin;
+    height: 2vmin;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    filter: blur(0.1vmin);
+    box-shadow: 0 0 1vmin rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    animation: bubble-float 15s ease-in infinite;
+}
+
+@keyframes bubble-float {
+    0% {
+        transform: translate(0, 0) scale(0.3);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(calc(var(--random-x) * 30vmin), -40vmin) scale(0);
+        opacity: 0;
+    }
 }
 
 .flower__light--1 {
@@ -540,16 +603,7 @@
     animation: growing-grass-ans--8 2s 1.2s linear backwards;
 }
 
-.flower__grass__overlay {
-    position: absolute;
-    top: -10%;
-    right: 0%;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    filter: blur(1.5vmin);
-    z-index: 100;
-}
+/* Removed flower__grass__overlay which had the dark shadow */
 
 /* Cỏ dài */
 .flower__g-long {
@@ -581,11 +635,11 @@
     height: 50vmin;
     transform-origin: bottom center;
     background-image: linear-gradient(to top, transparent 30%, var(--c));
-    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
     clip-path: polygon(35% 0, 65% 1%, 100% 100%, 0% 100%);
 }
 
-/* Cỏ bên phải */
+/* Cỏ bên phải - removed dark backgrounds */
 .flower__g-right {
     position: absolute;
     bottom: 6vmin;
@@ -599,7 +653,7 @@
     height: 50vmin;
     border-top-left-radius: 100%;
     border-left: 2vmin solid #2d8645;
-    background-image: linear-gradient(to bottom, transparent, #000 60%);
+    background-image: linear-gradient(to bottom, transparent, transparent 60%);
     -webkit-mask-image: linear-gradient(to top, transparent 30%, #2d8645 60%);
     mask-image: linear-gradient(to top, transparent 30%, #2d8645 60%);
 }
@@ -723,7 +777,7 @@
     height: 10vmin;
     border-radius: 100% 0% 0% 100% / 100% 100% 0% 0%;
     box-shadow: inset 0 2px 1vmin rgba(76, 175, 80, 0.2);
-    background-image: linear-gradient(to bottom left, transparent, #000),
+    background-image: linear-gradient(to bottom left, transparent, transparent),
         linear-gradient(
             to bottom right,
             #4caf50 50%,
@@ -744,7 +798,7 @@
     );
 }
 
-/* Cỏ FR */
+/* Cỏ FR - removed dark backgrounds */
 .flower__g-fr {
     position: absolute;
     bottom: -4vmin;
@@ -773,7 +827,7 @@
     height: 10vmin;
     border-radius: 100% 0% 0% 100% / 100% 100% 0% 0%;
     box-shadow: inset 0 2px 1vmin rgba(76, 175, 80, 0.2);
-    background-image: linear-gradient(to bottom left, transparent, #000 98%),
+    background-image: linear-gradient(to bottom left, transparent, transparent),
         linear-gradient(
             to bottom right,
             #4caf50 45%,
@@ -1253,32 +1307,56 @@
 }
 
 @keyframes moving-flower-1 {
-    0%,
-    100% {
-        transform: rotate(2deg);
+    0% {
+        transform: rotate(2deg) translateY(0);
+    }
+    25% {
+        transform: rotate(-1deg) translateY(-2vmin);
     }
     50% {
-        transform: rotate(-2deg);
+        transform: rotate(-2deg) translateY(-4vmin);
+    }
+    75% {
+        transform: rotate(-1deg) translateY(-2vmin);
+    }
+    100% {
+        transform: rotate(2deg) translateY(0);
     }
 }
 
 @keyframes moving-flower-2 {
-    0%,
-    100% {
-        transform: rotate(18deg);
+    0% {
+        transform: rotate(18deg) translateY(0);
+    }
+    25% {
+        transform: rotate(16deg) translateY(-3vmin);
     }
     50% {
-        transform: rotate(14deg);
+        transform: rotate(14deg) translateY(-5vmin);
+    }
+    75% {
+        transform: rotate(16deg) translateY(-3vmin);
+    }
+    100% {
+        transform: rotate(18deg) translateY(0);
     }
 }
 
 @keyframes moving-flower-3 {
-    0%,
-    100% {
-        transform: rotate(-18deg);
+    0% {
+        transform: rotate(-18deg) translateY(0);
+    }
+    25% {
+        transform: rotate(-19deg) translateY(-2vmin) rotateY(-5deg);
     }
     50% {
-        transform: rotate(-20deg) rotateY(-10deg);
+        transform: rotate(-20deg) translateY(-4vmin) rotateY(-10deg);
+    }
+    75% {
+        transform: rotate(-19deg) translateY(-2vmin) rotateY(-5deg);
+    }
+    100% {
+        transform: rotate(-18deg) translateY(0);
     }
 }
 
